@@ -1,7 +1,7 @@
 # Projeto DSW - Gestão de Provas com Repositório de Questões
 
 
-![Teman do projeto](tema.png)
+![Tema do projeto](tema.png)
 
 ### Funcionalidades
 
