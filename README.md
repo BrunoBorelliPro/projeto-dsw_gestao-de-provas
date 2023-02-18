@@ -2,10 +2,3 @@
 
 
 ![Tema do projeto](tema.png)
-
-### Funcionalidades
-
-* Cadastrar Professores, Admistradores e Alunos
-* Cadastrar questões no repositório
-* Montar a prova
-* Aplicar a prova
