@@ -30,26 +30,11 @@ describe("@damoin/entities/QuestionTypes/QuestionMultipleChoiceForm", () => {
         })
     ).toThrowError("At least one alternative must be correct");
   });
-  it("should return true when the correct alternative is chosen", () => {
-    const questionMultipleChoiceForm = new QuestionMultipleChoiceForm({
-      1: { text: "This is a question", isCorrect: true },
-      2: { text: "This is a question", isCorrect: false },
-    });
-    expect(questionMultipleChoiceForm.answer(1)).toBe(true);
-  });
+
   it("should return false when the wrong alternative is chosen", () => {
     const questionMultipleChoiceForm = new QuestionMultipleChoiceForm({
       1: { text: "This is a question", isCorrect: true },
       2: { text: "This is a question", isCorrect: false },
     });
-  });
-  it("should throw an error when trying to answer a question multiple choice form with an invalid alternative", () => {
-    const questionMultipleChoiceForm = new QuestionMultipleChoiceForm({
-      1: { text: "This is a question", isCorrect: true },
-      2: { text: "This is a question", isCorrect: false },
-    });
-    expect(() => questionMultipleChoiceForm.answer(3)).toThrowError(
-      "Invalid alternative"
-    );
   });
 });

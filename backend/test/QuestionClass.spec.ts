@@ -1,44 +1,48 @@
 import { Question } from "../src/@domain/entities/Question";
+import { QuestionData } from "../src/@domain/entities/QuestionData";
+import { QuestionEssayForm } from "../src/@domain/entities/QuestionTypes/QuestionEssayForm";
 
 describe("@damoin/entities/Question", () => {
   it("should be able to create a new question", () => {
-    const question = new Question({
-      data: [
+    const question = new Question(
+      new QuestionData([
         "This is a question",
         {
           url: "https://www.google.com",
           alt: "Google",
         },
-      ],
-    });
+      ]),
+      new QuestionEssayForm("This is a question")
+    );
     expect(question.id).toBeDefined();
   });
   it("should be able to create a new question with a specific id", () => {
     const question = new Question(
-      {
-        data: [
-          "This is a question",
-          {
-            url: "https://www.google.com",
-            alt: "Google",
-          },
-        ],
-      },
+      new QuestionData([
+        "This is a question",
+        {
+          url: "https://www.google.com",
+          alt: "Google",
+        },
+      ]),
+      new QuestionEssayForm("This is a question"),
+
       "1234"
     );
     expect(question.id).toBe("1234");
   });
 
   it("should be question data to be an array of strings and images", () => {
-    const question = new Question({
-      data: [
+    const question = new Question(
+      new QuestionData([
         "This is a question",
         {
           url: "https://www.google.com",
           alt: "Google",
         },
-      ],
-    });
+      ]),
+      new QuestionEssayForm("This is a question")
+    );
     const data: [string, { url: string; alt: string }] = question.questionData
       .data as [string, { url: string; alt: string }];
     expect(data[0]).toBe("This is a question");
@@ -46,30 +50,33 @@ describe("@damoin/entities/Question", () => {
     expect(data[1].alt).toBe("Google");
   });
   it("should create a new question with question data in right order", () => {
-    const question = new Question({
-      data: [
-        "This is a question",
-        "This is the first image:",
-        {
-          url: "https://www.google.com",
-          alt: "Google 0",
-        },
-        "This is the second and third image:",
-        {
-          url: "https://www.google.com",
-          alt: "Google 1",
-        },
-        {
-          url: "https://www.google.com",
-          alt: "Google 2",
-        },
-        "This is the last image:",
-        {
-          url: "https://www.google.com",
-          alt: "Google 3",
-        },
-      ],
-    });
+    const questionData = [
+      "This is a question",
+      "This is the first image:",
+      {
+        url: "https://www.google.com",
+        alt: "Google 0",
+      },
+      "This is the second and third image:",
+      {
+        url: "https://www.google.com",
+        alt: "Google 1",
+      },
+      {
+        url: "https://www.google.com",
+        alt: "Google 2",
+      },
+      "This is the last image:",
+      {
+        url: "https://www.google.com",
+        alt: "Google 3",
+      },
+    ];
+    const questionEssayForm = new QuestionEssayForm("This is a question");
+    const question = new Question(
+      new QuestionData(questionData),
+      questionEssayForm
+    );
     const data = question.questionData.data as [
       string,
       string,

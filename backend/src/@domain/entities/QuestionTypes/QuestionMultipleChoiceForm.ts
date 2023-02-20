@@ -17,10 +17,7 @@ export class QuestionMultipleChoiceForm extends BaseQuestionForm {
     }
     this.alternatives = alternatives;
   }
-  answer(answer: number): boolean {
-    if (!this.alternatives[answer]) throw new Error("Invalid alternative");
-    return this.alternatives[answer].isCorrect;
-  }
+
   alternatives: Alternatives;
 }
 type Alternatives = {
