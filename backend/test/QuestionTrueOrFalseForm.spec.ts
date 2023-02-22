@@ -1,4 +1,4 @@
-import { QuestionTrueOrFalseForm } from "../src/@domain/entities/QuestionTypes/QuestionTrueOrFalseForm";
+import { QuestionTrueOrFalseForm } from "../src/@domain/entities/Question/QuestionTypes/QuestionTrueOrFalseForm";
 
 describe("@damoin/entities/QuestionTypes/QuestionTrueOrFalseForm", () => {
   it("should create a new question true or false form", () => {

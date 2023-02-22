@@ -1,6 +1,6 @@
-import { Question } from "../src/@domain/entities/Question";
-import { QuestionData } from "../src/@domain/entities/QuestionData";
-import { QuestionEssayForm } from "../src/@domain/entities/QuestionTypes/QuestionEssayForm";
+import { Question } from "../src/@domain/entities/Question/Question";
+import { QuestionData } from "../src/@domain/entities/Question/QuestionData";
+import { QuestionEssayForm } from "../src/@domain/entities/Question/QuestionTypes/QuestionEssayForm";
 
 describe("@damoin/entities/Question", () => {
   it("should be able to create a new question", () => {

@@ -1,4 +1,4 @@
-import { QuestionMultipleChoiceForm } from "../src/@domain/entities/QuestionTypes/QuestionMultipleChoiceForm";
+import { QuestionMultipleChoiceForm } from "../src/@domain/entities/Question/QuestionTypes/QuestionMultipleChoiceForm";
 
 describe("@damoin/entities/QuestionTypes/QuestionMultipleChoiceForm", () => {
   it("should create a new question multiple choice form", () => {

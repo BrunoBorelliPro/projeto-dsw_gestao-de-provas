@@ -1,4 +1,4 @@
-import { QuestionEssayForm } from "../src/@domain/entities/QuestionTypes/QuestionEssayForm";
+import { QuestionEssayForm } from "../src/@domain/entities/Question/QuestionTypes/QuestionEssayForm";
 
 describe("@damoin/entities/QuestionTypes/QuestionEssayForm", () => {
   it("should create a new question essay form", () => {

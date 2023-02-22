@@ -1,4 +1,4 @@
-import { BaseEntity } from "./BaseEntity";
+import { BaseEntity } from "../BaseEntity";
 import { QuestionData } from "./QuestionData";
 import { BaseQuestionForm } from "./QuestionTypes/BaseQuestionForm";
 
