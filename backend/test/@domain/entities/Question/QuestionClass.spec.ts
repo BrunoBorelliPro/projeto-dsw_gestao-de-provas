@@ -1,8 +1,8 @@
-import { Question } from "../src/@domain/entities/Question/Question";
-import { QuestionData } from "../src/@domain/entities/Question/QuestionData";
-import { QuestionEssayForm } from "../src/@domain/entities/Question/QuestionTypes/QuestionEssayForm";
+import { Question } from "../../../../src/@domain/entities/Question/Question";
+import { QuestionData } from "../../../../src/@domain/entities/Question/QuestionData";
+import { QuestionEssayForm } from "../../../../src/@domain/entities/Question/QuestionTypes/QuestionEssayForm";
 
-describe("@damoin/entities/Question", () => {
+describe("@domain/entities/Question", () => {
   it("should be able to create a new question", () => {
     const question = new Question(
       new QuestionData([

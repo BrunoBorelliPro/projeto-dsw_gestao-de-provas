@@ -1,6 +1,6 @@
-import { QuestionMultipleChoiceForm } from "../src/@domain/entities/Question/QuestionTypes/QuestionMultipleChoiceForm";
+import { QuestionMultipleChoiceForm } from "../../../../src/@domain/entities/Question/QuestionTypes/QuestionMultipleChoiceForm";
 
-describe("@damoin/entities/QuestionTypes/QuestionMultipleChoiceForm", () => {
+describe("@domain/entities/QuestionTypes/QuestionMultipleChoiceForm", () => {
   it("should create a new question multiple choice form", () => {
     const questionMultipleChoiceForm = new QuestionMultipleChoiceForm({
       1: { text: "This is a question", isCorrect: true },
