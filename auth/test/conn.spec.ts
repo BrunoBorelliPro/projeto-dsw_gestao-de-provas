@@ -20,6 +20,7 @@ describe("MongoDB Connection", () => {
     const result = await collections.auth.insertOne(user);
     console.log(result);
     expect(result).not.toBeNull();
+    await collections.auth.deleteMany({ name: "test" });
   });
   it("should get a user", async () => {
     await connectToDatabase();
