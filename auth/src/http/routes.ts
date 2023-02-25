@@ -59,4 +59,22 @@ authRouter.delete(
     next();
   }
 );
+// login
+authRouter.post(
+  "/login",
+  async (req: Request, res: Response, next: NextFunction) => {
+    const reqUser = req.body as RegisterInput;
+    const user = await collections.auth.findOne({
+      email: reqUser.email,
+    });
+    if (user) {
+      res.status(200);
+      res.send({ message: "User logged in" });
+    } else {
+      res.status(404);
+      res.send({ message: "User not found" });
+    }
+    next();
+  }
+);
 export { authRouter };

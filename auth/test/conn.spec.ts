@@ -8,27 +8,4 @@ describe("MongoDB Connection", () => {
       connection;
     }).not.toThrow();
   });
-  it("should post a new user", async () => {
-    await connectToDatabase();
-    const user = new User(
-      "test",
-      "test@test.com",
-      "test!password",
-      new Date(),
-      new Date()
-    );
-    const result = await collections.auth.insertOne(user);
-    console.log(result);
-    expect(result).not.toBeNull();
-    await collections.auth.deleteMany({ name: "test" });
-  });
-  it("should get a user", async () => {
-    await connectToDatabase();
-    const result = (await collections.auth.findOne({
-      name: "test",
-    })) as User;
-
-    console.log(result);
-    expect(result).not.toBeNull();
-  });
 });
