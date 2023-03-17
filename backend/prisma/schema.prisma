@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Question {
+  id String @id @default(uuid())
+
+  content       String
+  question_type String @default("multiple_choice")
+
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+  alternatives Alternative[]
+
+  @@map("questions")
+}
+
+model Alternative {
+  id String @id @default(uuid())
+
+  content     String
+  is_correct  Boolean
+  question_id String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  question Question @relation(fields: [question_id], references: [id])
+
+  @@map("alternatives")
+}
