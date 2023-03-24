@@ -60,8 +60,13 @@
       <button @click="createQuestion">Cadastrar</button>
     </div>
     <div class="question_list__body">
+      <b-form-input
+        v-model="findQuestion"
+        placeholder="Procurar questão"
+      ></b-form-input>
+
       <b-card
-        v-for="(question, index) in questions"
+        v-for="(question, index) in filterQuestions()"
         :key="index"
         :title="
           question.question_type === 'multiple_choice'
@@ -85,6 +90,9 @@
         <b-button variant="danger" @click="deleteQuestion(question)"
           >Deletar</b-button
         >
+      </b-card>
+      <b-card v-if="filterQuestions().length === 0">
+        <b-card-text>Nenhuma questão encontrada</b-card-text>
       </b-card>
     </div>
   </div>
@@ -114,6 +122,8 @@ export default {
       },
 
       questions: [],
+
+      findQuestion: '',
     }
   },
   mounted() {
@@ -121,6 +131,11 @@ export default {
   },
 
   methods: {
+    filterQuestions() {
+      return this.questions.filter((question) =>
+        question.content.toLowerCase().includes(this.findQuestion.toLowerCase())
+      )
+    },
     addAlternative() {
       if (this.alternativeForm.content === '') {
         alert('Preencha o campo de alternativa')
