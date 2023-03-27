@@ -1,0 +1,189 @@
+openapi: 3.0.3
+info:
+  title: Projeto DSW - Gestão de provas
+  description: |-
+    Projeto para a disciplina “Desenvolvimento de Sistemas Web”.
+  termsOfService: http://swagger.io/terms/
+
+  version: 1.0.0
+
+tags:
+  - name: Questões
+    description: Tudo sobre as questões.
+paths:
+  /questions:
+    get:
+      tags:
+        - Questões
+      summary: Retorna todas as questões.
+      description: Retorna todas as questões.
+      operationId: getQuestions
+
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Question'
+        '404':
+          description: Questão não encontrada
+    post:
+      tags:
+        - Questões
+      summary: Cadastra uma questão.
+      description: Cadastra uma questão.
+      operationId: createQuestion
+      requestBody:
+        description: Cadastra uma questão.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionInput'
+                
+
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+      
+  /questions/{questionId}:
+    put:
+      tags:
+        - Questões
+      summary: Atualiza uma questão existente
+      description: Atualiza uma questão pelo Id.
+      operationId: updateQuestion
+      parameters:
+        - name: questionId
+          in: path
+          description: Id da questão
+          required: true
+          explode: true
+          schema:
+            type: string
+      requestBody:
+        description: Atualiza uma questão existente.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Question'
+
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+
+    get:
+      tags:
+        - Questões
+      summary: Procura uma questão pelo Id.
+      description: Procura uma questão pelo Id.
+      operationId: getQuestion
+      parameters:
+        - name: questionId
+          in: path
+          description: Id da questão
+          required: true
+          explode: true
+          schema:
+            type: string
+            
+
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+                schema:
+                  type: object
+                  $ref: '#/components/schemas/Question'
+        '404':
+          description: Questão não encontrada
+    delete:
+      tags:
+        - Questões
+      summary: Deleta uma questão pelo Id.
+      description: Deleta uma questão pelo Id.
+      operationId: deleteQuestion
+      parameters:
+        - name: questionId
+          in: path
+          description: Id da questão
+          required: true
+          explode: true
+          schema:
+            type: string
+            
+
+      responses:
+        '200':
+          description: Successful operation
+      
+
+components:
+  schemas:
+    QuestionInput:
+      type: object
+      properties:
+        content:
+          type: string
+          example: "Uma questão"
+        question_type:
+          type: string
+          example: "multiple_choice"
+        alternatives:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlternativeInput'
+    AlternativeInput:
+      type: object
+      properties:
+        content:
+          type: string
+          example: "Uma alternativa"
+        is_correct:
+          type: boolean
+
+    Question:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "5d57dbdc-a46d-4fe8-9e15-4d3ef8f07dc6"
+        content:
+          type: string
+          example: "Uma questão"
+        question_type:
+          type: string
+          example: "multiple_choice"
+        alternatives:
+          type: array
+          items:
+            $ref: '#/components/schemas/Alternative'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format:  date-time
+    Alternative:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "5d57dbdc-a46d-4fe8-9e15-4d3ef8f07dc6"
+        content:
+          type: string
+          example: "Uma alternativa"
+        is_correct:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format:  date-time
+
