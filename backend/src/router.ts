@@ -5,15 +5,21 @@ import { QuestionService } from "./services/Question.service";
 
 const router = Router();
 const questionController = new QuestionController();
-router.get("/questions", (req, res) => questionController.getAll(req, res));
-router.post("/questions", (req, res) => questionController.create(req, res));
-
-router.get("/questions/:id", (req, res) =>
-  questionController.getById(req, res)
+router.get("/questions", (req, res, next) =>
+  questionController.getAll(req, res, next)
 );
-router.put("/questions/:id", (req, res) => questionController.update(req, res));
-router.delete("/questions/:id", (req, res) =>
-  questionController.delete(req, res)
+router.post("/questions", (req, res, next) =>
+  questionController.create(req, res, next)
+);
+
+router.get("/questions/:id", (req, res, next) =>
+  questionController.getById(req, res, next)
+);
+router.put("/questions/:id", (req, res, next) =>
+  questionController.update(req, res, next)
+);
+router.delete("/questions/:id", (req, res, next) =>
+  questionController.delete(req, res, next)
 );
 
 export { router };

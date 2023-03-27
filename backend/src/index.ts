@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { config } from "dotenv";
 import { router } from "./router";
 import cors from "cors";
@@ -13,8 +13,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(router);
 
-app.get("/ping", (req, res) => {
-  res.json({ message: "pong" });
+app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
 });
 
 app.listen(port, () => {

@@ -58,6 +58,8 @@ export class QuestionService {
         question_id: id,
       },
     });
+    console.log("alternatives");
+    console.log(question);
 
     const alternatives = question.alternatives.map((alternative) => {
       return {
