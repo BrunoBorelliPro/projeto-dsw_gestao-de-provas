@@ -25,7 +25,9 @@ export class QuestionService {
   async create(question: Question) {
     console.log(`[QuestionService] create question`);
 
-    const alternatives: Alternative[] = question.alternatives;
+    let alternatives: Alternative[] = question.alternatives;
+
+    this.validateQuestion(question);
 
     const createdQuestion = await prisma.question.create({
       data: {
@@ -52,6 +54,8 @@ export class QuestionService {
     if (foundedQuestion === null) {
       throw new Error("Question not found");
     }
+
+    this.validateQuestion(question);
 
     await prisma.alternative.deleteMany({
       where: {
@@ -98,5 +102,33 @@ export class QuestionService {
         id: id,
       },
     });
+  }
+
+  private validateQuestion(question: Question) {
+    if (
+      question.question_type === "multiple_choice" ||
+      question.question_type === "true_false"
+    ) {
+      if (question.alternatives.length < 2) {
+        throw new Error("Question must have at least 2 alternatives");
+      }
+      let hasCorrectAlternative = false;
+      for (let alternative of question.alternatives) {
+        if (alternative.is_correct) {
+          hasCorrectAlternative = true;
+          break;
+        }
+      }
+      if (!hasCorrectAlternative) {
+        throw new Error("Question must have at least 1 correct alternative");
+      }
+    }
+
+    if (
+      question.question_type === "essay" &&
+      question.alternatives.length > 0
+    ) {
+      throw new Error("Essay questions cannot have alternatives");
+    }
   }
 }
