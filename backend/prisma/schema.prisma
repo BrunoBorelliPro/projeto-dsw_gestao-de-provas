@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("PRISMA_DATABASE_URL")
 }
 
@@ -19,6 +19,8 @@ model Question {
   created_at   DateTime      @default(now())
   updated_at   DateTime      @updatedAt
   alternatives Alternative[]
+  Test         Test?         @relation(fields: [testId], references: [id])
+  testId       String?
 
   @@map("questions")
 }
@@ -36,4 +38,33 @@ model Alternative {
   question Question @relation(fields: [question_id], references: [id])
 
   @@map("alternatives")
+}
+
+model Teacher {
+  id String @id @default(uuid())
+
+  name String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  tests      Test[]
+
+  @@map("teachers")
+}
+
+model Test {
+  id String @id @default(uuid())
+
+  title String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  questions Question[]
+
+  teacher_id String
+
+  teacher Teacher @relation(fields: [teacher_id], references: [id])
+
+  @@map("tests")
 }

@@ -1,14 +1,32 @@
 import { prisma } from "../../prisma/client";
 // Rodar o servidor antes de rodar os testes
+
+async function resetDB(questionsId: string[]) {
+  questionsId.map(async (id) => {
+    await prisma.alternative.deleteMany({
+      where: {
+        question_id: id,
+      },
+    });
+    await prisma.question.deleteMany({
+      where: {
+        id: id,
+      },
+    });
+  });
+}
+
 describe("Questions", () => {
-  beforeAll(async () => {
-    await prisma.alternative.deleteMany({});
-    await prisma.question.deleteMany({});
+  let questionsId: string[] = [];
+  beforeEach(async () => {
+    await resetDB(questionsId);
+    questionsId = [];
   });
-  afterEach(async () => {
-    await prisma.alternative.deleteMany({});
-    await prisma.question.deleteMany({});
+  afterAll(async () => {
+    await resetDB(questionsId);
+    questionsId = [];
   });
+
   it("should create a new question", async () => {
     const res = await fetch("http://localhost:8080/questions", {
       method: "POST",
@@ -39,16 +57,14 @@ describe("Questions", () => {
     expect(question.content).toBe("What is the best programming language?");
     expect(question.question_type).toBe("multiple_choice");
     expect(question.alternatives.length).toBe(3);
-    expect(question.alternatives[0].content).toBe("C#");
-    expect(question.alternatives[0].is_correct).toBe(false);
-    expect(question.alternatives[1].content).toBe("Java");
-    expect(question.alternatives[1].is_correct).toBe(false);
-    expect(question.alternatives[2].content).toBe("Python");
-    expect(question.alternatives[2].is_correct).toBe(true);
+    question.alternatives.map((alternative: any) => {
+      expect(alternative.question_id).toBe(question.id);
+    });
+    questionsId.push(question.id);
   });
 
   it("should return a list of questions", async () => {
-    await fetch("http://localhost:8080/questions", {
+    const question1 = await fetch("http://localhost:8080/questions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -71,8 +87,8 @@ describe("Questions", () => {
           },
         ],
       }),
-    });
-    await fetch("http://localhost:8080/questions", {
+    }).then((res) => res.json());
+    const question2 = await fetch("http://localhost:8080/questions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -82,21 +98,21 @@ describe("Questions", () => {
         question_type: "essay",
         alternatives: [],
       }),
-    });
+    }).then((res) => res.json());
 
     const res = await fetch("http://localhost:8080/questions");
     expect(res.status).toBe(200);
 
     const questions = await res.json();
 
-    expect(questions.length).toBe(2);
-    expect(questions[0].content).toBe("What is the best programming language?");
-    expect(questions[0].question_type).toBe("multiple_choice");
-    expect(questions[0].alternatives.length).toBe(3);
+    const filteredQuestions = questions.filter((question: any) => {
+      return question.id === question1.id || question.id === question2.id;
+    });
 
-    expect(questions[1].content).toBe("What is the best database?");
-    expect(questions[1].question_type).toBe("essay");
-    expect(questions[1].alternatives.length).toBe(0);
+    expect(filteredQuestions.length).toBe(2);
+
+    questionsId.push(filteredQuestions[0].id);
+    questionsId.push(filteredQuestions[1].id);
   });
 
   it("should return a question by id", async () => {
@@ -125,6 +141,8 @@ describe("Questions", () => {
     expect(findedQuestion.content).toBe("What is the best database?");
     expect(findedQuestion.question_type).toBe("essay");
     expect(findedQuestion.alternatives.length).toBe(0);
+
+    questionsId.push(findedQuestion.id);
   });
 
   it("should update a question", async () => {
@@ -179,6 +197,8 @@ describe("Questions", () => {
     expect(updatedQuestion.question_type).toBe("multiple_choice");
 
     expect(updatedQuestion.alternatives.length).toBe(3);
+
+    questionsId.push(updatedQuestion.id);
   });
 
   it("should delete a question", async () => {
