@@ -19,8 +19,7 @@ model Question {
   created_at   DateTime      @default(now())
   updated_at   DateTime      @updatedAt
   alternatives Alternative[]
-  Test         Test?         @relation(fields: [testId], references: [id])
-  testId       String?
+  tests        Test[]
 
   @@map("questions")
 }
@@ -60,11 +59,10 @@ model Test {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  questions Question[]
-
   teacher_id String
 
-  teacher Teacher @relation(fields: [teacher_id], references: [id])
+  teacher   Teacher    @relation(fields: [teacher_id], references: [id])
+  questions Question[]
 
   @@map("tests")
 }

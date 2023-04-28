@@ -73,13 +73,12 @@ export class TestService {
     const questionsIds = test.questions.map((id) => {
       return { id: id };
     });
-
     await prisma.test.update({
       where: { id: id },
       data: {
         title: test.title,
         questions: {
-          connect: questionsIds,
+          set: questionsIds,
         },
       },
     });

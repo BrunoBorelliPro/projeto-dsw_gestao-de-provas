@@ -74,6 +74,24 @@ export class TestController {
       return res.json(test);
     } catch (error: any) {
       console.log("[TestController] /update " + error.message);
+      if (error.message === "Number of questions must be greater than 0") {
+        console.log("[TestController] /update " + error.message);
+        return res.status(400).json({ message: error.message });
+      }
+      if (error.message === "Title is required") {
+        console.log("[TestController] /update " + error.message);
+        return res.status(400).json({ message: error.message });
+      }
+
+      if (error.message === "Teacher is required") {
+        console.log("[TestController] /update " + error.message);
+        return res.status(400).json({ message: error.message });
+      }
+
+      if (error.message === "Test not found") {
+        console.log("[TestController] /update " + error.message);
+        return res.status(404).json({ message: error.message });
+      }
       next(error);
     }
   }
