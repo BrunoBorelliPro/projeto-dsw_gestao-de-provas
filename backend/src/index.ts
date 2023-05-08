@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import { config } from "dotenv";
-import { router } from "./router";
+import { router } from "./api/router";
 import cors from "cors";
 
 config();
@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(router);
+app.use("/api", router);
 
 app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
   console.error(err.stack);
