@@ -6,10 +6,7 @@
           <NuxtLink to="/">Home</NuxtLink>
         </b-nav-item>
         <b-nav-item>
-          <NuxtLink to="/aluno">Aluno</NuxtLink>
-        </b-nav-item>
-        <b-nav-item>
-          <NuxtLink to="/professor">Professor</NuxtLink>
+          <NuxtLink to="/aluno/provas">Provas</NuxtLink>
         </b-nav-item>
       </b-navbar-nav>
     </b-navbar>
@@ -19,6 +16,10 @@
 
 <script>
 export default {
-  name: 'IndexPage',
+  name: '',
+
+  data() {
+    return {}
+  },
 }
 </script>

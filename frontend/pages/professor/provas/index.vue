@@ -77,6 +77,9 @@ export default {
   mounted() {
     this.$store.dispatch('test/getTests')
   },
+  layout(context) {
+    return 'professor'
+  },
   middleware: ['auth'],
   components: { SelectedQuestions, SelectQuestions },
 }

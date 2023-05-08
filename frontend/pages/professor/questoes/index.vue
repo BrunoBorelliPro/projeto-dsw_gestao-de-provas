@@ -14,5 +14,9 @@ export default {
   middleware: ['auth'],
 
   components: { QuestionForm, ListQuestions },
+
+  layout(context) {
+    return 'professor'
+  },
 }
 </script>
