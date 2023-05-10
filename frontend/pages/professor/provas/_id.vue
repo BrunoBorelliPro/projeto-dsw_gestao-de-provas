@@ -84,6 +84,9 @@ export default {
           })
       })
   },
+  layout(context) {
+    return 'professor'
+  },
   middleware: ['auth'],
   components: { SelectedQuestions, SelectQuestions },
 }

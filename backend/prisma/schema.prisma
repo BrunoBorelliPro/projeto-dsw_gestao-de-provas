@@ -61,8 +61,39 @@ model Test {
 
   teacher_id String
 
-  teacher   Teacher    @relation(fields: [teacher_id], references: [id])
-  questions Question[]
+  teacher     Teacher       @relation(fields: [teacher_id], references: [id])
+  questions   Question[]
+  StudentTest StudentTest[]
 
   @@map("tests")
+}
+
+model Student {
+  id String @id @default(uuid())
+
+  name String
+
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  StudentTest StudentTest[]
+
+  @@map("students")
+}
+
+model StudentTest {
+  id String @id @default(uuid())
+
+  grade           Decimal
+  available_until DateTime @default(now())
+
+  student_id String
+  test_id    String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  student Student @relation(fields: [student_id], references: [id])
+  test    Test    @relation(fields: [test_id], references: [id])
+
+  @@map("student_tests")
 }
