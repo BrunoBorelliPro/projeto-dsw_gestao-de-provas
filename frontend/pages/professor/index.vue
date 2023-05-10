@@ -5,7 +5,7 @@
 <script>
 export default {
   layout(context) {
-    return 'aluno'
+    return 'professor'
   },
   middleware: ['auth'],
 }
