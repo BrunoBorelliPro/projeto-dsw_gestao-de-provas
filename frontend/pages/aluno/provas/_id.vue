@@ -25,58 +25,35 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import ToAnswerQuestionCard from '../../../components/questions/aluno/ToAnswerQuestionCard.vue'
 
 export default {
   data() {
     return {
-      test: {
-        title: 'Prova 1',
-        questions: [
-          {
-            content: 'questão 1',
-            question_type: 'multiple_choice',
-            alternatives: [
-              {
-                content: 'alternativa 1',
-              },
-              {
-                content: 'alternativa 2',
-              },
-            ],
-          },
-          {
-            content: 'questão 2',
-            question_type: 'multiple_choice',
-            alternatives: [
-              {
-                content: 'alternativa 1',
-              },
-              {
-                content: 'alternativa 2',
-              },
-            ],
-          },
-          {
-            content: 'questão 3',
-            question_type: 'true_false',
-            alternatives: [
-              {
-                content: 'alternativa 1',
-              },
-              {
-                content: 'alternativa 2',
-              },
-            ],
-          },
-          {
-            content:
-              'questão 4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi quis aliquet urna, nec consectetur sapien. Morbi ut fermentum leo, a efficitur mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed lorem metus, finibus quis ornare quis, semper eu leo. Duis dictum egestas mattis. Duis euismod id ex et vestibulum. Duis orci metus, finibus a imperdiet at, porta at magna. Proin condimentum lectus vel porttitor venenatis. Donec non dapibus nulla, vel vehicula augue. Mauris sodales neque nec tellus blandit, non ultricies urna pharetra. Pellentesque luctus commodo neque.',
-            question_type: 'essay',
-          },
-        ],
-      },
+      test: {},
     }
+  },
+  methods: {
+    submitTest() {
+      alert('submit test')
+    },
+  },
+  computed: {
+    ...mapState({
+      appliedTests: (state) => state.appliedTests.appliedTests,
+    }),
+  },
+  mounted() {
+    this.$store
+      .dispatch('appliedTests/getAppliedTestById', this.$route.params.id)
+      .then(() => {
+        const test = this.appliedTests.find(
+          (test) => test.id === this.$route.params.id
+        )
+        this.test = test.test
+      })
   },
   layout(context) {
     return 'aluno'

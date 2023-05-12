@@ -1,15 +1,34 @@
 import { prisma } from "../../prisma/client";
 
-export class TestsStudentService {
+export class AppliedTestService {
+  async apply(students_id: string[], test_id: string, available_until: Date) {
+    console.log("[AppliedTestService] apply");
+    try {
+      await Promise.all(
+        students_id.map(async (student_id) => {
+          const appliedTest = await prisma.appliedTest.create({
+            data: {
+              grade: 0,
+              student_id: student_id,
+              test_id: test_id,
+              available_until: available_until,
+            },
+          });
+        })
+      );
+    } catch (error: any) {
+      console.log("[AppliedTestService] apply" + error.message);
+    }
+  }
   async getAllByStudentId(studentId: string) {
     console.log(
-      `[TestsStudentService] get all tests by student. studentId: ${studentId}`
+      `[AppliedTestService] get all tests by student. studentId: ${studentId}`
     );
-    return await prisma.studentTest.findMany({
+    return await prisma.appliedTest.findMany({
       where: {
         student_id: studentId,
         available_until: {
-          lte: new Date(),
+          gte: new Date(),
         },
       },
       include: {
@@ -31,13 +50,13 @@ export class TestsStudentService {
     });
   }
 
-  async getByTestStudentId(studentTestId: string) {
+  async getByAppliedTestId(appliedTestId: string) {
     console.log(
-      `[TestsStudentService] get test by student. studentTestId: ${studentTestId}`
+      `[AppliedTestService] get test applied. appliedTestId: ${appliedTestId}`
     );
-    return await prisma.studentTest.findUnique({
+    return await prisma.appliedTest.findUnique({
       where: {
-        id: studentTestId,
+        id: appliedTestId,
       },
       include: {
         test: {
@@ -58,14 +77,14 @@ export class TestsStudentService {
     });
   }
 
-  // async correction(studentTestId: string, studentId: string, answers: any) {
+  // async correction(appliedTestId: string, studentId: string, answers: any) {
   //   console.log(
-  //     `[TestsStudentService] correction. studentTestId: ${studentTestId}, studentId: ${studentId}`
+  //     `[AppliedTestService] correction. appliedTestId: ${appliedTestId}, studentId: ${studentId}`
   //   );
 
-  //   const test = await prisma.studentTest.findUnique({
+  //   const test = await prisma.appliedTest.findUnique({
   //     where: {
-  //       id: studentTestId,
+  //       id: appliedTestId,
   //     },
   //     include: {
   //       test: {
@@ -129,7 +148,7 @@ export class TestsStudentService {
 
   //   const grade = (correctAnswers * 10) / test?.test.questions.length;
 
-  //   const studentTest = await prisma.studentTest.update({
+  //   const appliedTest = await prisma.appliedTest.update({
   //     where: {
   //       test_id_student_id: {
   //         test_id: testId,
@@ -145,6 +164,6 @@ export class TestsStudentService {
   //     },
   //   });
 
-  //   return studentTest;
+  //   return appliedTest;
   // }
 }

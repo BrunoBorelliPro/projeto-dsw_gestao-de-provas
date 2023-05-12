@@ -20,4 +20,5 @@ app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
+  console.log(`http://localhost:${port}`);
 });

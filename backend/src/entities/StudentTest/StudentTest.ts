@@ -1,4 +1,4 @@
-export default class StudentTest {
+export default class appliedTest {
   id: string;
   student_id: string;
   test_id: string;

@@ -63,7 +63,7 @@ model Test {
 
   teacher     Teacher       @relation(fields: [teacher_id], references: [id])
   questions   Question[]
-  StudentTest StudentTest[]
+  AppliedTest AppliedTest[]
 
   @@map("tests")
 }
@@ -75,12 +75,12 @@ model Student {
 
   created_at  DateTime      @default(now())
   updated_at  DateTime      @updatedAt
-  StudentTest StudentTest[]
+  AppliedTest AppliedTest[]
 
   @@map("students")
 }
 
-model StudentTest {
+model AppliedTest {
   id String @id @default(uuid())
 
   grade           Decimal
@@ -95,5 +95,5 @@ model StudentTest {
   student Student @relation(fields: [student_id], references: [id])
   test    Test    @relation(fields: [test_id], references: [id])
 
-  @@map("student_tests")
+  @@map("applied_tests")
 }

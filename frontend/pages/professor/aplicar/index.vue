@@ -1,37 +1,68 @@
 <template>
   <div class="container">
-    <div class="box"></div>
+    <div class="box">
+      <div class="title">
+        <h1>Provas</h1>
+      </div>
+      <div class="test-list">
+        <TestCard v-for="test in tests" :key="test.id" :test="test" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
+import TestCard from '../../../components/tests/TestCard.vue'
 export default {
   data() {
-    return {
-      provas: [
-        {
-          id: '1',
-          title: 'Prova 1',
-          teacherId: 'ID_DE_UM_PROFESSOR',
-        },
-        {
-          id: '2',
-          title: 'Prova 2',
-          teacherId: 'ID_DE_UM_PROFESSOR',
-        },
-        {
-          id: '3',
-          title: 'Prova 3',
-          teacherId: 'ID_DE_UM_PROFESSOR',
-        },
-      ],
-    }
+    return {}
+  },
+  computed: {
+    ...mapState({
+      tests: (state) => state.test.tests,
+    }),
+  },
+  mounted() {
+    this.$store.dispatch('test/getTests')
   },
   layout(context) {
     return 'professor'
   },
   middleware: ['auth'],
+  components: { TestCard },
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.test-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+</style>
