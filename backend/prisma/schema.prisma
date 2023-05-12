@@ -20,8 +20,20 @@ model Question {
   updated_at   DateTime      @updatedAt
   alternatives Alternative[]
   tests        Test[]
+  Response     Response?
 
   @@map("questions")
+}
+
+model Response {
+  id String @id @default(uuid())
+
+  content     String
+  question    Question @relation(fields: [question_id], references: [id])
+  question_id String   @unique
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 model Alternative {
