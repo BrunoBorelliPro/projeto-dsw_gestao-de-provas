@@ -6,15 +6,27 @@
     <div class="alternatives">
       <div v-if="question.question_type === 'multiple_choice'">
         <div v-for="(alternative, index) in question.alternatives" :key="index">
-          <input type="radio" :id="index" :name="question.content" />
-          <label for="index">{{ alternative.content }}</label>
+          <input
+            type="radio"
+            :id="alternative.id"
+            :name="question.content"
+            disabled
+            :checked="alternative.is_correct"
+          />
+          <label :for="alternative.id">{{ alternative.content }}</label>
         </div>
       </div>
 
       <div v-if="question.question_type === 'true_false'">
         <div v-for="(alternative, index) in question.alternatives" :key="index">
-          <input type="checkbox" :id="index" :name="question.content" />
-          <label for="index">{{ alternative.content }}</label>
+          <input
+            type="checkbox"
+            :id="alternative.id"
+            :name="question.content"
+            disabled
+            :checked="alternative.is_correct"
+          />
+          <label :for="alternative.id">{{ alternative.content }}</label>
         </div>
       </div>
 
@@ -24,6 +36,7 @@
           :id="question.id"
           :name="question.content"
           class="question-essay-response"
+          disabled
         />
       </div>
       <div v-else></div>
@@ -33,7 +46,7 @@
 
 <script>
 export default {
-  name: 'ToAnswerQuestionCard',
+  name: 'ToSeeQuestionCard',
   props: {
     question: {
       type: Object,

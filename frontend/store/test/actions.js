@@ -28,4 +28,13 @@ export default {
     await this.$axios.$delete(`/tests/${payload}`)
     commit('DELETE_TEST', payload)
   },
+
+  async applyTest({ commit }, payload) {
+    console.log(payload)
+    await this.$axios.$post(`/student/tests`, {
+      test_id: payload.test_id,
+      students_id: payload.students_id,
+      available_until: payload.available_until,
+    })
+  },
 }

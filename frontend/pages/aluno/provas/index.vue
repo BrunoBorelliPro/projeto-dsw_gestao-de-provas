@@ -4,7 +4,7 @@
       <div class="title"><h1>Provas disponíveis</h1></div>
       <div class="tests">
         <div
-          v-for="(test, index) in tests"
+          v-for="(test, index) in appliedTests"
           :key="index"
           class="test"
           v-on:click="goToTest(test.id)"
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import ToAnswerTestCard from '../../../components/questions/aluno/ToAnswerTestCard.vue'
 
 export default {
@@ -25,6 +26,16 @@ export default {
       this.$router.push({ path: `/aluno/provas/${testId}` })
     },
   },
+
+  computed: {
+    ...mapState({
+      appliedTests: (state) => state.appliedTests.appliedTests,
+    }),
+  },
+  mounted() {
+    this.$store.dispatch('appliedTests/getAppliedTests', 'ID_DO_ALUNO')
+  },
+
   data() {
     return {
       tests: [

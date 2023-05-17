@@ -64,8 +64,8 @@ export class TestService {
       where: { id: id },
     });
 
-    if (foundedTest === null) {
-      throw new Error("Test not found");
+    if (!foundedTest) {
+      return;
     }
 
     this.validateTest(test);
@@ -91,10 +91,6 @@ export class TestService {
 
   async delete(id: string) {
     console.log(`[TestService] delete test: ${id}`);
-
-    const foundedTest = await prisma.test.findUnique({
-      where: { id: id },
-    });
 
     await prisma.test.delete({
       where: { id: id },
