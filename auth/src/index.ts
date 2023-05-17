@@ -1,7 +1,19 @@
-import express from "express";
+import app from "./app";
+import dbo from "./db/conn";
 
-import { Server } from "./http/server";
-import { authRouter } from "./http/routes";
+import dotenv from "dotenv";
 
-const server = new Server(express(), [authRouter]);
-server.start("3000");
+dotenv.config();
+
+const PORT = process.env.PORT || 3331;
+
+dbo
+  .connect()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error(err);
+  });
