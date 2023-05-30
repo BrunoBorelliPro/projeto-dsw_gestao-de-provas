@@ -14,10 +14,17 @@ export default {
       type: Object,
       required: true,
     },
+    isToPdf: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     selectTest() {
-      this.$router.push(`/professor/aplicar/${this.test.id}`)
+      if (!this.isToPdf) {
+        return this.$router.push(`/professor/aplicar/provas/${this.test.id}`)
+      }
+      return this.$router.push(`/professor/aplicar/imprimir/${this.test.id}`)
     },
   },
   data() {

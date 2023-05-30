@@ -1,23 +1,27 @@
 <template>
   <div class="container">
     <div class="box">
-      <div class="title">
-        <h1>{{ test.title }}</h1>
-      </div>
-      <div class="questions">
-        <div
-          v-for="(question, index) in test.questions"
-          :key="index"
-          class="question"
-        >
-          <ToAnswerQuestionCard :question="question" :number="index + 1" />
+      <div class="test" id="printMe">
+        <div class="title">
+          <h1>{{ test.title }}</h1>
+        </div>
+        <div class="questions">
+          <div
+            v-for="(question, index) in test.questions"
+            :key="index"
+            class="question"
+          >
+            <ToAnswerQuestionCard :question="question" :number="index + 1" />
+          </div>
         </div>
       </div>
+
       <div>
         <div class="buttons">
           <b-button variant="primary" @click="submitTest"
             >Enviar Prova</b-button
           >
+          <b-button variant="primary" @click="print">Imprimir Prova</b-button>
         </div>
       </div>
     </div>
@@ -38,6 +42,21 @@ export default {
   methods: {
     submitTest() {
       alert('submit test')
+    },
+    print() {
+      const options = {
+        name: 'um nome qualquer',
+        specs: ['fullscreen=yes', 'titlebar=no', 'scrollbars=no'],
+        styles: [
+          'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
+          '@public/prova.css',
+        ],
+        timeout: 1000,
+        autoClose: true,
+        windowTitle:
+          'Vue Html To Paper - Vue mixin for html elements printing.',
+      }
+      this.$htmlToPaper('printMe', options)
     },
   },
   computed: {

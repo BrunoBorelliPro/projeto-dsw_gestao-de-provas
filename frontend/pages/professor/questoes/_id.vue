@@ -1,10 +1,12 @@
 <template>
-  <div class=".container">
-    <QuestionForm
-      :edit-question-id="$route.params.id"
-      :submit-btn-text="'Editar Questão'"
-      :title="'Editar Questão'"
-    />
+  <div class="container">
+    <div class="box">
+      <QuestionForm
+        :edit-question-id="$route.params.id"
+        :submit-btn-text="'Editar Questão'"
+        :title="'Editar Questão'"
+      />
+    </div>
   </div>
 </template>
 

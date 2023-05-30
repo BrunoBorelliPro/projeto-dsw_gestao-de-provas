@@ -50,7 +50,7 @@ export class AppliedTestService {
     });
   }
 
-  async getByAppliedTestId(appliedTestId: string) {
+  async getById(appliedTestId: string) {
     console.log(
       `[AppliedTestService] get test applied. appliedTestId: ${appliedTestId}`
     );

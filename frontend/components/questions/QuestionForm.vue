@@ -34,12 +34,12 @@
         class="alternatives__list"
       >
         <p>
-          <button
+          <b-button
             class="delete_alternative"
             @click="() => removeAlternative(index)"
           >
             🗑️
-          </button>
+          </b-button>
           {{ index + 1 }}) {{ alternative.content }}
           {{ alternative.is_correct ? '✅' : '❌' }}
         </p>
@@ -51,12 +51,14 @@
           placeholder="Alternativa"
         />
         <input v-model="alternativeForm.is_correct" type="checkbox" />
-        <button @click="addAlternative">Adicionar</button>
+        <b-button variant="primary" @click="addAlternative">Adicionar</b-button>
       </div>
     </div>
 
     <div v-else :key="'essay'" class="form__add_alternative"></div>
-    <button @click="createQuestion">{{ submitBtnText }}</button>
+    <b-button variant="primary" @click="createQuestion">{{
+      submitBtnText
+    }}</b-button>
   </div>
 </template>
 
@@ -216,12 +218,11 @@ export default {
   margin-bottom: 20px;
 }
 .form__add_alternative__input {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr;
   width: 100%;
   height: 40px;
+  margin-bottom: 10px;
 }
 .form__add_alternative__input input {
   width: 100%;

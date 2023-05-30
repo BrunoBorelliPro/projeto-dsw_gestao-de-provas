@@ -15,7 +15,10 @@ app.use("/api", router);
 
 app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
   console.error(err.stack);
-  res.status(500).send("Something broke!");
+  if (err.status === 404) return res.status(404).send("Sorry can't find that!");
+  if (err.message.includes("Unique constraint failed on the constraint"))
+    return res.status(409).send("Email already exists!");
+  return res.status(500).send("Something broke!");
 });
 
 app.listen(port, () => {

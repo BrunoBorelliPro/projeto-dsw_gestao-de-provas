@@ -8,7 +8,7 @@ export class QuestionController {
     try {
       const questionService = new QuestionService();
       const questions = await questionService.getAll();
-      return res.json(questions);
+      return res.status(200).json(questions);
     } catch (error: any) {
       console.log("[QuestionController] /getAll" + error.message);
       next(error);

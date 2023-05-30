@@ -1,24 +1,12 @@
 <template>
-  <div>
-    <b-navbar type="dark" variant="dark">
-      <b-navbar-nav>
-        <b-nav-item>
-          <NuxtLink to="/">Home</NuxtLink>
-        </b-nav-item>
-        <b-nav-item>
-          <NuxtLink to="/aluno">Aluno</NuxtLink>
-        </b-nav-item>
-        <b-nav-item>
-          <NuxtLink to="/professor">Professor</NuxtLink>
-        </b-nav-item>
-      </b-navbar-nav>
-    </b-navbar>
-    <Nuxt />
-  </div>
+  <div class="container"></div>
 </template>
-
 <script>
 export default {
   name: 'IndexPage',
+  middleware: ['auth', 'toHome'],
+  layout(context) {
+    return 'guest'
+  },
 }
 </script>

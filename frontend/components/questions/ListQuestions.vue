@@ -108,18 +108,14 @@ export default {
 }
 
 .question_list__questions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .question_list__question {
-  max-width: 300px;
-  max-height: 300px;
-
-  margin-bottom: 20px;
-  margin-right: 20px;
 }
 
 .overflow {
