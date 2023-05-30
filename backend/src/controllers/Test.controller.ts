@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { TestService } from "../services/Test.service";
+import { Test } from "../entities/Test/Test";
 
 export class TestController {
   async getAll(req: Request, res: Response, next: NextFunction) {
@@ -36,8 +37,14 @@ export class TestController {
     console.log("[TestController] /create");
     console.log(req.body);
     try {
+      const toCreateTest = new Test(
+        req.body.title,
+        req.body.teacher.id,
+        req.body.questions
+      );
+
       const testService = new TestService();
-      const test = await testService.create(req.body);
+      const test = await testService.create(toCreateTest);
       return res.status(201).json(test);
     } catch (error: any) {
       console.log("[TestController] /create " + error.message);
@@ -69,8 +76,13 @@ export class TestController {
     console.log("[TestController] /update");
 
     try {
+      const toUpdateTest = new Test(
+        req.body.title,
+        req.body.teacher.id,
+        req.body.questions
+      );
       const testService = new TestService();
-      const test = await testService.update(req.params.id, req.body);
+      const test = await testService.update(req.params.id, toUpdateTest);
       return res.json(test);
     } catch (error: any) {
       console.log("[TestController] /update " + error.message);

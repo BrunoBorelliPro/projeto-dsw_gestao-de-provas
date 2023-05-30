@@ -1,14 +1,28 @@
 import UserService from "../services/UserService";
 import utils from "../utils/utils";
 
+function validateUser(user: any) {
+  if (user.name && user.email && user.password && user.user_id) {
+    return true;
+  }
+  return false;
+}
 export default {
   async create(req: any, res: any) {
+    console.log(`[UserController] - create`);
     const matchDocument = {
-      username: req.body.username,
+      name: req.body.name,
       email: req.body.email,
+      user_id: req.body.user_id,
+      isTeacher: req.body.isTeacher,
       password: await utils.encryptPwd(req.body.password),
       created_at: new Date(),
     };
+
+    if (!validateUser(matchDocument)) {
+      res.status(400).json({ message: "Dados inválidos!" });
+      return;
+    }
 
     UserService.create(matchDocument)
       .then((result: any) => {
@@ -31,12 +45,17 @@ export default {
 
   async update(req: any, res: any) {
     const matchDocument = {
-      username: req.body.username,
+      name: req.body.name,
       email: req.body.email,
+      user_id: req.body.user_id,
+      isTeacher: req.body.isTeacher,
       password: await utils.encryptPwd(req.body.password),
       updated_at: new Date(),
     };
-
+    if (!validateUser(matchDocument)) {
+      res.status(400).json({ message: "Dados inválidos!" });
+      return;
+    }
     UserService.update(req.params.id, matchDocument)
       .then((result: any) => {
         res.status(200).json({ message: "Usuário atualizado com sucesso!" });

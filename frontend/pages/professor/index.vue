@@ -7,6 +7,6 @@ export default {
   layout(context) {
     return 'professor'
   },
-  middleware: ['auth'],
+  // middleware: ['auth'],
 }
 </script>

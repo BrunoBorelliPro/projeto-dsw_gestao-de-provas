@@ -1,7 +1,9 @@
 <template>
-  <div class=".container">
-    <QuestionForm />
-    <ListQuestions />
+  <div class="container">
+    <div class="box">
+      <QuestionForm />
+      <ListQuestions />
+    </div>
   </div>
 </template>
 
@@ -20,3 +22,20 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.box {
+  width: 100%;
+  max-width: 800px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 30px;
+}
+</style>

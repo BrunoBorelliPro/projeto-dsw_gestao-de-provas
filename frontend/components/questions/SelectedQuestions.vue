@@ -79,22 +79,18 @@ export default {
 }
 
 .question_list__questions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 20px;
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .question_list__question {
-  max-width: 300px;
-  max-height: 300px;
-
-  margin-bottom: 20px;
-  margin-right: 20px;
+  cursor: pointer;
 }
-
-.overflow {
-  overflow-y: auto;
-  max-height: 100px;
+.question_list__question:hover {
+  cursor: pointer;
+  background-color: #b9b9b9;
 }
 </style>

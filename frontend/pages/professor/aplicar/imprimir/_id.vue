@@ -1,36 +1,24 @@
 <template>
   <div class="container">
     <div class="box">
-      <div class="title">
-        <h1>{{ test.title }}</h1>
-      </div>
-      <div class="questions">
-        <div
-          v-for="(question, index) in test.questions"
-          :key="index"
-          class="question"
-        >
-          <ToSeeQuestionCard :question="question" :number="index + 1" />
+      <div class="test" id="printMe">
+        <div class="title">
+          <h1>{{ test.title }}</h1>
         </div>
-      </div>
-      <div class="student-list">
-        <div
-          class="student-card"
-          :class="{ selected: studentsToApply.includes(student.id) }"
-          v-for="student in students"
-          :key="student.id"
-          v-on:click="() => selectStudent(student.id)"
-        >
-          <h1 class="student-name">{{ student.name }}</h1>
+        <div class="questions">
+          <div
+            v-for="(question, index) in test.questions"
+            :key="index"
+            class="question"
+          >
+            <ToSeeQuestionCard :question="question" :number="index + 1" />
+          </div>
         </div>
-      </div>
-      <div class="date">
-        <input type="datetime-local" required v-model="available_until" />
       </div>
 
       <div class="buttons">
-        <button class="btn btn-primary" v-on:click="() => applyTest()">
-          Aplicar prova
+        <button class="btn btn-primary" v-on:click="() => toPdf()">
+          Imprimir prova
         </button>
       </div>
     </div>
@@ -40,7 +28,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import ToSeeQuestionCard from '../../../components/questions/professor/ToSeeQuestionCard.vue'
+import ToSeeQuestionCard from '../../../../components/questions/professor/ToSeeQuestionCard.vue'
 
 export default {
   data() {
@@ -59,38 +47,25 @@ export default {
     }),
   },
   mounted() {
-    this.$store.dispatch('students/getStudents')
     this.$store.dispatch('test/getTestById', this.$route.params.id).then(() => {
       this.test = this.tests.find((test) => test.id === this.$route.params.id)
     })
   },
   methods: {
-    selectStudent(id) {
-      console.log(this.studentsToApply)
-      if (this.studentsToApply.includes(id)) {
-        this.studentsToApply = this.studentsToApply.filter(
-          (studentId) => studentId !== id
-        )
-      } else {
-        this.studentsToApply.push(id)
+    toPdf() {
+      const options = {
+        name: 'um nome qualquer',
+        specs: ['fullscreen=yes', 'titlebar=no', 'scrollbars=no'],
+        styles: [
+          'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
+          '@public/prova.css',
+        ],
+        timeout: 1000,
+        autoClose: true,
+        windowTitle:
+          'Vue Html To Paper - Vue mixin for html elements printing.',
       }
-    },
-    applyTest() {
-      if (this.studentsToApply.length === 0) {
-        alert('Selecione pelo menos um aluno')
-        return
-      }
-      if (this.available_until === '') {
-        alert('Selecione uma data')
-        return
-      }
-
-      const payload = {
-        test_id: this.$route.params.id,
-        students_id: this.studentsToApply,
-        available_until: this.available_until,
-      }
-      this.$store.dispatch('test/applyTest', payload)
+      this.$htmlToPaper('printMe', options)
     },
   },
   layout(context) {
@@ -122,6 +97,14 @@ export default {
   margin-top: 20px;
   margin-bottom: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.test {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 .title {
   display: flex;

@@ -1,25 +1,31 @@
 <template>
-  <div class=".container">
-    <div class="test">
-      <h1>Provas</h1>
-      <b-form>
-        <b-form-group id="title-group" label="Título">
-          <b-form-input
-            id="title"
-            type="text"
-            v-model="form.title"
-            required
-            placeholder="Título da prova"
-          ></b-form-input>
-        </b-form-group>
-      </b-form>
+  <div class="container">
+    <div class="box">
+      <div class="test">
+        <h1>Provas</h1>
+        <b-form>
+          <b-form-group id="title-group" label="Título">
+            <b-form-input
+              id="title"
+              type="text"
+              v-model="form.title"
+              required
+              placeholder="Título da prova"
+            ></b-form-input>
+          </b-form-group>
+        </b-form>
 
-      <SelectedQuestions />
+        <SelectedQuestions />
 
-      <b-button variant="warning" @click="updateTest()">Editar Prova</b-button>
-      <b-button variant="danger" @click="deleteTest()">Deletar Prova</b-button>
+        <b-button variant="warning" @click="updateTest()"
+          >Editar Prova</b-button
+        >
+        <b-button variant="danger" @click="deleteTest()"
+          >Deletar Prova</b-button
+        >
+      </div>
+      <SelectQuestions />
     </div>
-    <SelectQuestions />
   </div>
 </template>
 
@@ -35,7 +41,7 @@ export default {
     return {
       form: {
         title: '',
-        teacherId: 'ID_DE_UM_PROFESSOR',
+        teacherId: this.$cookies.get('user').userId,
         questions: [],
       },
     }
@@ -52,6 +58,7 @@ export default {
         id: this.$route.params.id,
       }
       this.$store.dispatch('test/updateTest', payload)
+      this.$router.push({ path: '/professor/provas' })
     },
     deleteTest(test) {
       this.$store.dispatch('test/deleteTest', this.$route.params.id)
@@ -91,3 +98,29 @@ export default {
   components: { SelectedQuestions, SelectQuestions },
 }
 </script>
+
+<style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+}
+
+.test {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+}
+</style>

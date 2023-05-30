@@ -8,6 +8,9 @@
         <b-nav-item>
           <NuxtLink to="/aluno/provas">Provas</NuxtLink>
         </b-nav-item>
+        <b-nav-item>
+          <NuxtLink to="/auth/logout">Sair</NuxtLink>
+        </b-nav-item>
       </b-navbar-nav>
     </b-navbar>
     <Nuxt />
@@ -16,10 +19,11 @@
 
 <script>
 export default {
-  name: '',
-
   data() {
     return {}
   },
+  middleware: 'auth',
 }
 </script>
+
+<style scoped></style>

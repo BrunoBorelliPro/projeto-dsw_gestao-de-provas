@@ -5,7 +5,12 @@
         <h1>Provas</h1>
       </div>
       <div class="test-list">
-        <TestCard v-for="test in tests" :key="test.id" :test="test" />
+        <TestCard
+          v-for="test in tests"
+          :key="test.id"
+          :test="test"
+          :isToPdf="true"
+        />
       </div>
     </div>
   </div>
@@ -14,7 +19,8 @@
 <script>
 import { mapState } from 'vuex'
 
-import TestCard from '../../../components/tests/TestCard.vue'
+import TestCard from '../../../../components/tests/TestCard.vue'
+
 export default {
   data() {
     return {}
@@ -61,8 +67,10 @@ export default {
   margin-bottom: 20px;
 }
 .test-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
 }
 </style>

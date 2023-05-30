@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { AppliedTestService } from "../../services/AppliedTest.service";
+import { AppliedTestService } from "../services/AppliedTest.service";
 
 export class AppliedTestController {
   apply(req: Request, res: Response, next: NextFunction) {
@@ -39,7 +39,7 @@ export class AppliedTestController {
     const appliedTestService = new AppliedTestService();
 
     try {
-      const test = await appliedTestService.getByAppliedTestId(req.params.id);
+      const test = await appliedTestService.getById(req.params.id);
       if (!test) {
         return res.status(404).json({ message: "Test not found" });
       }

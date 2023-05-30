@@ -4,9 +4,9 @@ import utils from "../utils/utils";
 
 export default {
   async login(req: Request, res: Response) {
-    console.log(req.body.username);
-    if (req.body.hasOwnProperty("username")) {
-      const userLogin = await UserService.getByUsername(req.body.username);
+    console.log(req.body.email);
+    if (req.body.hasOwnProperty("email")) {
+      const userLogin = await UserService.getByEmail(req.body.email);
       if (userLogin) {
         console.log(userLogin);
         const authenticated = await utils.comparePwd(
@@ -14,9 +14,17 @@ export default {
           userLogin.password
         );
         if (authenticated) {
-          const token = utils.singJwt(userLogin._id.toString());
-          res.set("Authorization", `Bearer ${token}`);
-          res.status(200).json(userLogin);
+          const token = utils.singJwt({
+            id: userLogin.user_id,
+            user_id: userLogin.user_id,
+            isTeacher: userLogin.isTeacher,
+          });
+          res.status(200).json({
+            userId: userLogin.user_id,
+            token: token,
+            isTeacher: userLogin.isTeacher,
+            exp: utils.getExpirationDate(token),
+          });
         } else {
           res.status(401).json({ message: "Invalid credentials" });
         }
@@ -26,9 +34,5 @@ export default {
     } else {
       res.status(400).json({ message: "Invalid request" });
     }
-  },
-  async logout(req: Request, res: Response) {
-    res.set("Authorization", "Bearer ");
-    res.status(200).send();
   },
 };

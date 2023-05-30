@@ -54,7 +54,8 @@ model Alternative {
 model Teacher {
   id String @id @default(uuid())
 
-  name String
+  name  String
+  email String @unique
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -83,7 +84,8 @@ model Test {
 model Student {
   id String @id @default(uuid())
 
-  name String
+  name  String
+  email String @unique
 
   created_at  DateTime      @default(now())
   updated_at  DateTime      @updatedAt

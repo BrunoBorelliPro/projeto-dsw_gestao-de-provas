@@ -6,9 +6,10 @@ const collection = "users";
 
 export default {
   async create(matchUser: {
-    username: string;
+    name: string;
     email: string;
     password: string | undefined;
+    isTeacher: boolean;
     created_at: Date;
   }) {
     const dbConnect = dbo.getDb();
@@ -22,7 +23,15 @@ export default {
       .findOne({ _id: new ObjectId(id) });
   },
 
-  async update(id: string, matchUser: {}) {
+  async update(
+    id: string,
+    matchUser: {
+      name: string;
+      email: string;
+      password: string | undefined;
+      isTeacher: boolean;
+    }
+  ) {
     const dbConnect = dbo.getDb();
     return await dbConnect
 
@@ -37,11 +46,15 @@ export default {
       .deleteOne({ _id: new ObjectId(id) });
   },
 
-  async getByUsername(username: string) {
-    console.log(`Get user by username: ${username}`);
+  async getByName(name: string) {
+    console.log(`Get user by name: ${name}`);
     const dbConnect = dbo.getDb();
-    return await dbConnect
-      .collection(collection)
-      .findOne({ username: username });
+    return await dbConnect.collection(collection).findOne({ name: name });
+  },
+
+  async getByEmail(email: string) {
+    console.log(`Get user by email: ${email}`);
+    const dbConnect = dbo.getDb();
+    return await dbConnect.collection(collection).findOne({ email: email });
   },
 };

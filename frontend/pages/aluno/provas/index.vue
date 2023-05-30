@@ -33,37 +33,17 @@ export default {
     }),
   },
   mounted() {
-    this.$store.dispatch('appliedTests/getAppliedTests', 'ID_DO_ALUNO')
+    const user = this.$cookies.get('user')
+    console.log(user)
+    this.$store.dispatch(
+      'appliedTests/getAppliedTests',
+      this.$cookies.get('user').userId
+    )
   },
 
   data() {
     return {
-      tests: [
-        {
-          id: 'id1',
-          title: 'Prova 1',
-          questions: [],
-          available_until: '2023-05-08T15:59:19.158Z',
-        },
-        {
-          id: 'id2',
-          title: 'Prova 2',
-          questions: [],
-          available_until: '2023-05-08T15:59:19.158Z',
-        },
-        {
-          id: 'id2',
-          title: 'Prova 2',
-          questions: [],
-          available_until: '2023-05-08T15:59:19.158Z',
-        },
-        {
-          id: 'id2',
-          title: 'Prova 2',
-          questions: [],
-          available_until: '2023-05-08T15:59:19.158Z',
-        },
-      ],
+      tests: [],
     }
   },
   layout(context) {
