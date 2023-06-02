@@ -1,36 +1,42 @@
 <template>
   <div class="container">
-    <div class="box">
-      <PrintTestComponent :test="test" />
+    <div class="test" id="printMe">
+      <div class="aluno_data">
+        <p>Nome:</p>
+        <p>Prontuário:</p>
+      </div>
+      <div class="title">
+        <h1>{{ test.title }}</h1>
+      </div>
+      <div class="questions">
+        <div
+          v-for="(question, index) in test.questions"
+          :key="index"
+          class="question"
+        >
+          <ToPrintQuestionCard :question="question" :number="index + 1" />
+        </div>
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="btn btn-primary" v-on:click="() => toPdf()">
+        Imprimir prova
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import PrintTestComponent from '../../../../components/PrintTestComponent.vue'
+import ToPrintQuestionCard from './questions/professor/ToPrintQuestionCard.vue'
 
 export default {
-  data() {
-    return {
-      test: {},
-      available_until: '',
-
-      studentsToApply: [],
-    }
+  props: {
+    test: {
+      type: Object,
+      required: true,
+    },
   },
 
-  computed: {
-    ...mapState({
-      students: (state) => state.students.students,
-      tests: (state) => state.test.tests,
-    }),
-  },
-  mounted() {
-    this.$store.dispatch('test/getTestById', this.$route.params.id).then(() => {
-      this.test = this.tests.find((test) => test.id === this.$route.params.id)
-    })
-  },
   methods: {
     toPdf() {
       const doc = this.$JsPDF()
@@ -46,37 +52,13 @@ export default {
       })
     },
   },
-  layout(context) {
-    return 'professor'
-  },
-  name: 'QuestoesPage',
-  middleware: ['auth'],
-  components: { PrintTestComponent },
+
+  name: 'PrintTestComponent',
+  components: { ToPrintQuestionCard },
 }
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
 .test {
   display: inline-block;
 

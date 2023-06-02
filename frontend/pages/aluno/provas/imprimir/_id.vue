@@ -14,22 +14,23 @@ export default {
   data() {
     return {
       test: {},
-      available_until: '',
-
-      studentsToApply: [],
     }
   },
 
   computed: {
     ...mapState({
-      students: (state) => state.students.students,
-      tests: (state) => state.test.tests,
+      appliedTests: (state) => state.appliedTests.appliedTests,
     }),
   },
   mounted() {
-    this.$store.dispatch('test/getTestById', this.$route.params.id).then(() => {
-      this.test = this.tests.find((test) => test.id === this.$route.params.id)
-    })
+    this.$store
+      .dispatch('appliedTests/getAppliedTestById', this.$route.params.id)
+      .then(() => {
+        const test = this.appliedTests.find(
+          (test) => test.id === this.$route.params.id
+        )
+        this.test = test.test
+      })
   },
   methods: {
     toPdf() {
@@ -47,7 +48,7 @@ export default {
     },
   },
   layout(context) {
-    return 'professor'
+    return 'aluno'
   },
   name: 'QuestoesPage',
   middleware: ['auth'],
