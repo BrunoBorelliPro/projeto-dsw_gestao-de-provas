@@ -44,19 +44,11 @@ export default {
       alert('submit test')
     },
     print() {
-      const options = {
-        name: 'um nome qualquer',
-        specs: ['fullscreen=yes', 'titlebar=no', 'scrollbars=no'],
-        styles: [
-          'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
-          '@public/prova.css',
-        ],
-        timeout: 1000,
-        autoClose: true,
-        windowTitle:
-          'Vue Html To Paper - Vue mixin for html elements printing.',
-      }
-      this.$htmlToPaper('printMe', options)
+      console.log('print')
+      console.log(this.test)
+      this.$router.push({
+        path: `/aluno/provas/imprimir/${this.$route.params.id}`,
+      })
     },
   },
   computed: {
@@ -71,6 +63,7 @@ export default {
         const test = this.appliedTests.find(
           (test) => test.id === this.$route.params.id
         )
+        console.log(test)
         this.test = test.test
       })
   },

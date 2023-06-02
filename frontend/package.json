@@ -19,9 +19,9 @@
     "bootstrap-vue": "^2.22.0",
     "cookie-universal-nuxt": "^2.2.2",
     "core-js": "^3.25.3",
+    "jspdf": "^2.5.1",
     "nuxt": "^2.15.8",
     "vue": "^2.7.10",
-    "vue-html-to-paper": "^1.4.4",
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10"
   },
