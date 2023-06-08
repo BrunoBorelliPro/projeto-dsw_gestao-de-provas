@@ -38,7 +38,11 @@ export default {
   ],
 
   axios: {
-    baseURL: `${process.env.API_URL}/api`,
+    baseURL: `${process.env.API_URL}`,
+  },
+
+  publicRuntimeConfig: {
+    authUrl: process.env.AUTH_URL,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

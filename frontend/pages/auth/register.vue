@@ -97,7 +97,7 @@ export default {
           console.log(response)
           const userId = response.data.id
           this.$axios
-            .post(`${process.env.AUTH_URL}/users`, {
+            .post(`${this.$config.authUrl}/users`, {
               name: this.form.name,
               email: this.form.email,
               password: this.form.password,
