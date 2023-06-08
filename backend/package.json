@@ -8,7 +8,8 @@
     "start": "node dist/src/index.js",
     "build": "tsc --build",
     "clean": "tsc --build --clean",
-    "test": "jest"
+    "test": "jest",
+    "start:migrate:prod": "prisma migrate deploy && npm run start"
   },
   "keywords": [],
   "author": "",
