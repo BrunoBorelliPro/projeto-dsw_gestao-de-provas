@@ -38,7 +38,7 @@ export default {
   ],
 
   axios: {
-    baseURL: `${process.env.API_URL}`,
+    baseURL: `${process.env.API_URL}/api`,
   },
 
   publicRuntimeConfig: {
