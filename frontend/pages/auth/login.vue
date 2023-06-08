@@ -54,7 +54,7 @@ export default {
 
       this.$axios
         .post(
-          `http://localhost:3331/login`,
+          `${process.env.AUTH_URL}/login`,
           {
             email: this.form.email,
             password: this.form.password,
