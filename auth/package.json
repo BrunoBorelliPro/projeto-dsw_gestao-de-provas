@@ -1,11 +1,14 @@
 {
-  "name": "backend",
+  "name": "auth",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "start": "node dist/index.js",
+    "build": "tsc --build",
+    "clean": "tsc --build --clean"
   },
   "keywords": [],
   "author": "",

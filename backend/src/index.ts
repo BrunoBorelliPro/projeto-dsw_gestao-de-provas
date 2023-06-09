@@ -6,6 +6,8 @@ import cors from "cors";
 config();
 const app = express();
 const port = process.env.PORT || 3000;
+const HOST = process.env.HOST || "http://localhost";
+const URL = `${HOST}:${port}/`;
 
 app.use(cors());
 app.use(express.json());
@@ -23,5 +25,5 @@ app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
-  console.log(`http://localhost:${port}`);
+  console.log(`${URL}`);
 });

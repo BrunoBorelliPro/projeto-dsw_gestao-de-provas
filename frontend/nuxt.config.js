@@ -38,9 +38,19 @@ export default {
   ],
 
   axios: {
-    baseURL: 'http://localhost:8080/api',
+    baseURL: `${process.env.API_URL}/api`,
+  },
+
+  publicRuntimeConfig: {
+    authUrl: process.env.AUTH_URL,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  watchers: {
+    webpack: {
+      poll: true,
+    },
+  },
 }
