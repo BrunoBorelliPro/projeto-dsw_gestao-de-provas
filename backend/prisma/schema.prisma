@@ -97,7 +97,6 @@ model Student {
 model AppliedTest {
   id String @id @default(uuid())
 
-  grade           Decimal
   available_until DateTime @default(now())
 
   student_id String
@@ -106,8 +105,23 @@ model AppliedTest {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  student Student @relation(fields: [student_id], references: [id])
-  test    Test    @relation(fields: [test_id], references: [id])
+  student      Student        @relation(fields: [student_id], references: [id])
+  test         Test           @relation(fields: [test_id], references: [id])
+  ResponseTest ResponseTest[]
 
   @@map("applied_tests")
+}
+
+model ResponseTest {
+  id String @id @default(uuid())
+
+  grade           Decimal
+  applied_test_id String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  applied_test AppliedTest @relation(fields: [applied_test_id], references: [id])
+
+  @@map("response_tests")
 }
