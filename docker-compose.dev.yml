@@ -15,6 +15,7 @@ services:
     volumes:
       - ./frontend:/var/www/dockerize-nuxt/nuxt-app
       - /var/www/dockerize-nuxt/nuxt-app/node_modules
+
   backend:
     depends_on:
       - mysql
@@ -57,6 +58,7 @@ services:
       - "3306"
     volumes:
       - my-db:/var/lib/mysql
+
   mongodb:
     image: mongo:latest
     container_name: mongodb

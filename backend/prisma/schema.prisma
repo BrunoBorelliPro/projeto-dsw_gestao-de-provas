@@ -5,6 +5,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// generator erd {
+//   provider = "prisma-erd-generator"
+// }
+
 datasource db {
   provider = "mysql"
   url      = env("PRISMA_DATABASE_URL")
@@ -14,26 +18,16 @@ model Question {
   id String @id @default(uuid())
 
   content       String
-  question_type String @default("multiple_choice")
+  question_type String  @default("multiple_choice")
+  response      String?
 
-  created_at   DateTime      @default(now())
-  updated_at   DateTime      @updatedAt
-  alternatives Alternative[]
-  tests        Test[]
-  Response     Response?
+  created_at       DateTime           @default(now())
+  updated_at       DateTime           @updatedAt
+  alternatives     Alternative[]
+  tests            Test[]
+  ResponseQuestion ResponseQuestion[]
 
   @@map("questions")
-}
-
-model Response {
-  id String @id @default(uuid())
-
-  content     String
-  question    Question @relation(fields: [question_id], references: [id])
-  question_id String   @unique
-
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
 }
 
 model Alternative {
@@ -46,7 +40,8 @@ model Alternative {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  question Question @relation(fields: [question_id], references: [id])
+  question            Question              @relation(fields: [question_id], references: [id])
+  ResponseAlternative ResponseAlternative[]
 
   @@map("alternatives")
 }
@@ -87,9 +82,10 @@ model Student {
   name  String
   email String @unique
 
-  created_at  DateTime      @default(now())
-  updated_at  DateTime      @updatedAt
-  AppliedTest AppliedTest[]
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @updatedAt
+  AppliedTest  AppliedTest[]
+  ResponseTest ResponseTest[]
 
   @@map("students")
 }
@@ -112,16 +108,55 @@ model AppliedTest {
   @@map("applied_tests")
 }
 
+model ResponseQuestion {
+  id String @id @default(uuid())
+
+  response String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  question_id String
+
+  question       Question              @relation(fields: [question_id], references: [id])
+  alternatives   ResponseAlternative[]
+  ResponseTest   ResponseTest?         @relation(fields: [responseTestId], references: [id])
+  responseTestId String?
+
+  @@map("response_questions")
+}
+
+model ResponseAlternative {
+  id String @id @default(uuid())
+
+  is_selected Boolean
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  response_question_id String
+  alternative_id       String
+
+  ResponseQuestion ResponseQuestion @relation(fields: [response_question_id], references: [id])
+  alternative      Alternative      @relation(fields: [alternative_id], references: [id])
+
+  @@map("response_alternatives")
+}
+
 model ResponseTest {
   id String @id @default(uuid())
 
-  grade           Decimal
+  grade Decimal
+
   applied_test_id String
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  applied_test AppliedTest @relation(fields: [applied_test_id], references: [id])
+  student            Student            @relation(fields: [studentId], references: [id])
+  response_questions ResponseQuestion[]
+  applied_test       AppliedTest        @relation(fields: [applied_test_id], references: [id])
+  studentId          String
 
   @@map("response_tests")
 }

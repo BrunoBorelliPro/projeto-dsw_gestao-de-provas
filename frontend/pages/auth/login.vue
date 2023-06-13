@@ -53,6 +53,8 @@ export default {
     onSubmit(event) {
       event.preventDefault()
 
+      
+
       this.$axios
         .post(
           `${this.$config.authUrl}/login`,
@@ -82,6 +84,7 @@ export default {
           },
           (error) => {
             console.log(error)
+            alert("Falha ao logar")
           }
         )
     },

@@ -33,6 +33,9 @@ export class QuestionService {
       data: {
         content: question.content,
         question_type: question.question_type,
+
+        response: question.response ? question.response : null,
+
         alternatives: {
           create: [...alternatives],
         },
@@ -77,7 +80,7 @@ export class QuestionService {
       data: {
         content: question.content,
         question_type: question.question_type,
-
+        response: question.response ? question.response : null,
         alternatives: {
           create: alternatives,
         },
@@ -129,6 +132,10 @@ export class QuestionService {
       question.alternatives.length > 0
     ) {
       throw new Error("Essay questions cannot have alternatives");
+    }
+
+    if (question.question_type === "essay" && !question.response) {
+      throw new Error("Essay questions must have a response");
     }
   }
 }

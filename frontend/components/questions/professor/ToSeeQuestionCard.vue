@@ -35,6 +35,7 @@
           type="text"
           :id="question.id"
           :name="question.content"
+          :placeholder="question.response"
           class="question-essay-response"
           disabled
         />

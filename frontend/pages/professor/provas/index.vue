@@ -66,6 +66,11 @@ export default {
         ...this.form,
         questions: questionsIds,
       }
+
+      if (!payload.title) return alert('Insira um título para a prova')
+      if (!payload.questions.length)
+        return alert('Selecione pelo menos uma questão')
+
       this.$store.dispatch('test/createTest', payload)
     },
     editTest(test) {

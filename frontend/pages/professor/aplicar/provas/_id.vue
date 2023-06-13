@@ -91,7 +91,14 @@ export default {
         students_id: this.studentsToApply,
         available_until: this.available_until,
       }
-      this.$store.dispatch('test/applyTest', payload)
+      this.$store
+        .dispatch('test/applyTest', payload)
+        .then(() => {
+          alert('Prova aplicada com sucesso')
+        })
+        .catch(() => {
+          alert('Erro ao aplicar prova')
+        })
     },
   },
   layout(context) {

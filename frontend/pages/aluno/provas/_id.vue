@@ -41,7 +41,34 @@ export default {
   },
   methods: {
     submitTest() {
-      alert('submit test')
+      const res = confirm('Deseja mesmo enviar a prova para correção?')
+      if (!res) return
+
+      const test = {
+        appliedTestId: this.$route.params.id,
+      }
+
+      const studenteResponses = this.$store.state.responseTest.questions.map(
+        (q) => {
+          return {
+            questionId: q.id,
+            response: q.response,
+            question_type: q.question_type,
+          }
+        }
+      )
+      test.responses = studenteResponses
+      this.$store
+        .dispatch('responseTest/submitTest', test)
+        .then(() => {
+          this.$router.push({
+            path: `/aluno/provas/${this.$route.params.id}/resultado`,
+          })
+        })
+        .catch((err) => {
+          alert('Erro ao enviar a prova para correção')
+          console.log(err)
+        })
     },
     print() {
       console.log('print')
@@ -66,6 +93,8 @@ export default {
         console.log(test)
         this.test = test.test
       })
+
+    this.$store.dispatch('responseTest/resetResponseTest')
   },
   layout(context) {
     return 'aluno'

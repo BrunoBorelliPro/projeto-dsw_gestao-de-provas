@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { AppliedTestController } from "../../controllers/AppliedTest.controller";
-import authMiddleware from "../../middlewares/auth.middleware";
 import isStudentMiddleware from "../../middlewares/isStudent.middleware";
 import isTeacherMiddleware from "../../middlewares/isTeacher.middleware";
 

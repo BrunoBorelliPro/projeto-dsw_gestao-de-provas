@@ -12,6 +12,7 @@ services:
       - 3000:3000
     env_file:
       - ./frontend/.env
+
   backend:
     depends_on:
       - mysql
@@ -48,6 +49,7 @@ services:
       - "3306"
     volumes:
       - my-db:/var/lib/mysql
+
   mongodb:
     image: mongo:latest
     container_name: mongodb
