@@ -15,7 +15,8 @@ services:
 
   backend:
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -49,6 +50,23 @@ services:
       - "3306"
     volumes:
       - my-db:/var/lib/mysql
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "-u",
+          "$MYSQL_USER",
+          "-p$MYSQL_PASSWORD",
+          "ping",
+          "-h",
+          "localhost",
+        ]
+
+      interval: 30s
+      timeout: 20s
+      retries: 10
 
   mongodb:
     image: mongo:latest
