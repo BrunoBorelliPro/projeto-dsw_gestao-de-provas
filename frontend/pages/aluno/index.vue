@@ -7,6 +7,5 @@ export default {
   layout(context) {
     return 'aluno'
   },
-  middleware: ['auth'],
 }
 </script>

@@ -11,6 +11,12 @@ import { mapState } from 'vuex'
 import PrintTestComponent from '../../../../components/PrintTestComponent.vue'
 
 export default {
+  name: 'QuestoesPage',
+  components: { PrintTestComponent },
+  layout(context) {
+    return 'professor'
+  },
+  middleware: ['auth'],
   data() {
     return {
       test: {},
@@ -46,12 +52,6 @@ export default {
       })
     },
   },
-  layout(context) {
-    return 'professor'
-  },
-  name: 'QuestoesPage',
-  middleware: ['auth'],
-  components: { PrintTestComponent },
 }
 </script>
 

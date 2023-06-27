@@ -9,11 +9,6 @@ export default {
   layout(context) {
     return 'guest'
   },
-  created() {
-    this.setToken('')
-    this.setUser({})
-    this.$router.push('/')
-  },
   data() {
     return {
       form: {
@@ -21,6 +16,11 @@ export default {
         password: '',
       },
     }
+  },
+  created() {
+    this.setToken('')
+    this.setUser({})
+    this.$router.push('/')
   },
 
   methods: {

@@ -1,16 +1,17 @@
+import { PrismaClient } from "@prisma/client";
 import { Teacher } from "../entities/User/Teacher/Teacher";
-import { prisma } from "../../prisma/client";
+import { Service } from "./Service";
 
-export default class TeacherService {
+export default class TeacherService extends Service {
   async getAll() {
     console.log(`[TeacherService] get all teachers`);
-    const teachers = await prisma.teacher.findMany({});
+    const teachers = await this.prisma.teacher.findMany({});
     return teachers;
   }
 
   async getById(id: string) {
     console.log(`[TeacherService] get teacher: ${id}`);
-    const teacher = await prisma.teacher.findUnique({
+    const teacher = await this.prisma.teacher.findUnique({
       where: {
         id: id,
       },
@@ -20,7 +21,7 @@ export default class TeacherService {
 
   async create(teacher: Teacher) {
     console.log(`[TeacherService] create teacher`);
-    const createdTeacher = await prisma.teacher.create({
+    const createdTeacher = await this.prisma.teacher.create({
       data: {
         name: teacher.name,
         email: teacher.email,
@@ -31,7 +32,7 @@ export default class TeacherService {
 
   async update(id: string, teacher: Teacher) {
     console.log(`[TeacherService] update teacher: ${id}`);
-    const updatedTeacher = await prisma.teacher.update({
+    const updatedTeacher = await this.prisma.teacher.update({
       where: { id: id },
       data: {
         name: teacher.name,
@@ -43,14 +44,14 @@ export default class TeacherService {
 
   async delete(id: string) {
     console.log(`[TeacherService] delete teacher: ${id}`);
-    await prisma.teacher.delete({
+    await this.prisma.teacher.delete({
       where: { id: id },
     });
   }
 
   async getByEmail(email: string) {
     console.log(`[TeacherService] get teacher by email: ${email}`);
-    const teacher = await prisma.teacher.findFirst({
+    const teacher = await this.prisma.teacher.findFirst({
       where: { email: email },
     });
     return teacher;

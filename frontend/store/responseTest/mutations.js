@@ -1,6 +1,5 @@
 export default {
   UPDATE_REPONSE(state, response) {
-    console.log('UPDATE_REPONSE', response)
     if (
       state.questions.filter((question) => question.id === response.questionId)
         .length === 0

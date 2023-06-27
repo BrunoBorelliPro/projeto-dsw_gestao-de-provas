@@ -15,21 +15,21 @@
       </div>
       <div class="student-list">
         <div
-          class="student-card"
-          :class="{ selected: studentsToApply.includes(student.id) }"
           v-for="student in students"
           :key="student.id"
-          v-on:click="() => selectStudent(student.id)"
+          class="student-card"
+          :class="{ selected: studentsToApply.includes(student.id) }"
+          @click="() => selectStudent(student.id)"
         >
           <h1 class="student-name">{{ student.name }}</h1>
         </div>
       </div>
       <div class="date">
-        <input type="datetime-local" required v-model="available_until" />
+        <input v-model="available_until" type="datetime-local" required />
       </div>
 
       <div class="buttons">
-        <button class="btn btn-primary" v-on:click="() => applyTest()">
+        <button class="btn btn-primary" @click="() => applyTest()">
           Aplicar prova
         </button>
       </div>
@@ -43,6 +43,12 @@ import { mapState } from 'vuex'
 import ToSeeQuestionCard from '../../../../components/questions/professor/ToSeeQuestionCard.vue'
 
 export default {
+  name: 'QuestoesPage',
+  components: { ToSeeQuestionCard },
+  layout(context) {
+    return 'professor'
+  },
+  middleware: ['auth'],
   data() {
     return {
       test: {},
@@ -66,7 +72,6 @@ export default {
   },
   methods: {
     selectStudent(id) {
-      console.log(this.studentsToApply)
       if (this.studentsToApply.includes(id)) {
         this.studentsToApply = this.studentsToApply.filter(
           (studentId) => studentId !== id
@@ -101,12 +106,6 @@ export default {
         })
     },
   },
-  layout(context) {
-    return 'professor'
-  },
-  name: 'QuestoesPage',
-  middleware: ['auth'],
-  components: { ToSeeQuestionCard },
 }
 </script>
 

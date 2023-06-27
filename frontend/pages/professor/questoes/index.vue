@@ -13,13 +13,13 @@ import QuestionForm from '../../../components/questions/QuestionForm.vue'
 
 export default {
   name: 'QuestoesPage',
-  middleware: ['auth'],
 
   components: { QuestionForm, ListQuestions },
 
   layout(context) {
     return 'professor'
   },
+  middleware: ['auth'],
 }
 </script>
 

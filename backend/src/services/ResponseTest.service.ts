@@ -4,8 +4,11 @@ import {
   ResponseAlternative,
   ResponseTest,
   ResponseQuestion as ResponseQuestionType,
+  PrismaClient,
+  AppliedTestQuestions,
+  AppliedTestAlternatives,
 } from "@prisma/client";
-import { prisma } from "../../prisma/client";
+import { Service } from "./Service";
 
 type ResponseQuestion = {
   questionId: string;
@@ -13,7 +16,7 @@ type ResponseQuestion = {
   response: string | [string];
 };
 
-export class ResponseTestService {
+export class ResponseTestService extends Service {
   async create(
     appliedTestId: string,
     responses: ResponseQuestion[],
@@ -21,7 +24,7 @@ export class ResponseTestService {
   ) {
     console.log(`[ResponseTestService] responseTest: ${appliedTestId}`);
 
-    const responseTest = await prisma.responseTest.create({
+    const responseTest = await this.prisma.responseTest.create({
       data: {
         applied_test_id: appliedTestId,
         grade: 0,
@@ -51,7 +54,7 @@ export class ResponseTestService {
     responseTest: ResponseTest,
     responseQuestion: ResponseQuestion
   ) {
-    const response = await prisma.responseQuestion.create({
+    const response = await this.prisma.responseQuestion.create({
       data: {
         response: responseQuestion.response as string,
         question_id: responseQuestion.questionId,
@@ -70,14 +73,14 @@ export class ResponseTestService {
       console.log("alternative is empty");
       return;
     }
-    const response = await prisma.responseQuestion.create({
+    const response = await this.prisma.responseQuestion.create({
       data: {
         question_id: responseQuestion.questionId,
         responseTestId: responseTest.id,
       },
     });
 
-    const responseAlternative = await prisma.responseAlternative.create({
+    const responseAlternative = await this.prisma.responseAlternative.create({
       data: {
         alternative_id: alternative,
         is_selected: true,
@@ -94,7 +97,7 @@ export class ResponseTestService {
   ) {
     const alternatives = responseQuestion.response as [string];
 
-    const response = await prisma.responseQuestion.create({
+    const response = await this.prisma.responseQuestion.create({
       data: {
         question_id: responseQuestion.questionId,
         responseTestId: responseTest.id,
@@ -103,7 +106,7 @@ export class ResponseTestService {
     console.log(alternatives);
 
     for (const alternative of alternatives) {
-      await prisma.responseAlternative.create({
+      await this.prisma.responseAlternative.create({
         data: {
           response_question_id: response.id,
           alternative_id: alternative,
@@ -118,7 +121,7 @@ export class ResponseTestService {
   private async calculateGrade(responseTestId: string) {
     console.log(`[ResponseTestService] calculateGrade: ${responseTestId}`);
 
-    const responseTest = await prisma.responseTest.findUnique({
+    const responseTest = await this.prisma.responseTest.findUnique({
       where: {
         id: responseTestId,
       },
@@ -130,13 +133,9 @@ export class ResponseTestService {
         },
         applied_test: {
           include: {
-            test: {
+            applied_questions: {
               include: {
-                questions: {
-                  include: {
-                    alternatives: true,
-                  },
-                },
+                alternatives: true,
               },
             },
           },
@@ -148,7 +147,7 @@ export class ResponseTestService {
 
     let grade = 0;
 
-    for (const question of responseTest.applied_test.test.questions) {
+    for (const question of responseTest.applied_test.applied_questions) {
       const responseQuestion = responseTest.response_questions.find(
         (responseQuestion) => responseQuestion.question_id === question.id
       );
@@ -166,7 +165,7 @@ export class ResponseTestService {
 
     console.log(`[ResponseTestService] grade: ${grade}`);
 
-    return await prisma.responseTest.update({
+    return await this.prisma.responseTest.update({
       where: {
         id: responseTestId,
       },
@@ -177,8 +176,8 @@ export class ResponseTestService {
   }
 
   private calculateMultipleChoiceGrade(
-    question: Question & {
-      alternatives: Alternative[];
+    question: AppliedTestQuestions & {
+      alternatives: AppliedTestAlternatives[];
     },
     responseQuestion: ResponseQuestionType & {
       alternatives: ResponseAlternative[];
@@ -207,8 +206,8 @@ export class ResponseTestService {
   }
 
   private calculateTrueFalseGrade(
-    question: Question & {
-      alternatives: Alternative[];
+    question: AppliedTestQuestions & {
+      alternatives: AppliedTestAlternatives[];
     },
     responseQuestion: ResponseQuestionType & {
       alternatives: ResponseAlternative[];
@@ -250,8 +249,8 @@ export class ResponseTestService {
   }
 
   private calculateEssayGrade(
-    question: Question & {
-      alternatives: Alternative[];
+    question: AppliedTestQuestions & {
+      alternatives: AppliedTestAlternatives[];
     },
     responseQuestion: ResponseQuestionType & {
       alternatives: ResponseAlternative[];

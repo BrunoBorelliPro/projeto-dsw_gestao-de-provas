@@ -7,8 +7,8 @@
       <div v-if="question.question_type === 'multiple_choice'">
         <div v-for="(alternative, index) in question.alternatives" :key="index">
           <input
-            type="radio"
             :id="alternative.id"
+            type="radio"
             :name="question.content"
             @change="updateResponse"
           />
@@ -19,8 +19,8 @@
       <div v-if="question.question_type === 'true_false'">
         <div v-for="(alternative, index) in question.alternatives" :key="index">
           <input
-            type="checkbox"
             :id="alternative.id"
+            type="checkbox"
             :name="question.content"
             @change="updateTrueFalse"
           />
@@ -30,11 +30,11 @@
 
       <div v-if="question.question_type === 'essay'">
         <textarea
-          type="text"
           :id="question.id"
+          type="text"
           :name="question.content"
           class="question-essay-response"
-          v-on:keyup="updateResponse"
+          @keyup="updateResponse"
         />
       </div>
       <div v-else></div>
@@ -57,12 +57,18 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      responseTrueFalse: [],
+    }
+  },
   computed: {
     ...mapState({
       responses: (state) => state.responseTest.questions,
     }),
   },
   mounted() {
+    console.log(this.question)
     this.updateResponse(false)
   },
   methods: {
@@ -84,7 +90,6 @@ export default {
       if (!event) {
         response.response = ''
       } else if (this.question.question_type === 'true_false') {
-        console.log(this.responseTrueFalse)
         response.response = [...this.responseTrueFalse]
       } else if (this.question.question_type === 'multiple_choice') {
         response.response = event.target.id
@@ -93,11 +98,6 @@ export default {
       }
       this.$store.dispatch('responseTest/updateResponse', response)
     },
-  },
-  data() {
-    return {
-      responseTrueFalse: [],
-    }
   },
 }
 </script>

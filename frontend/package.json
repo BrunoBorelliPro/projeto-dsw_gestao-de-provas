@@ -11,7 +11,8 @@
     "lint:prettier": "prettier --check .",
     "lint": "npm run lint:js && npm run lint:prettier",
     "lintfix": "prettier --write --list-different . && npm run lint:js -- --fix",
-    "test": "jest"
+    "test": "jest",
+    "format": "eslint \"**/*.{js,mjs}\" --fix && prettier --write --loglevel warn \"**/*.{js,mjs,json}\""
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",

@@ -5,21 +5,23 @@ import { Test } from "../entities/Test/Test";
 export class TestController {
   async getAll(req: Request, res: Response, next: NextFunction) {
     console.log("[TestController] /getAll");
+    const testService = new TestService();
 
     try {
-      const testService = new TestService();
       const tests = await testService.getAll();
       return res.json(tests);
     } catch (error: any) {
       console.log("[TestController] /getAll " + error.message);
       next(error);
+    } finally {
+      testService.close();
     }
   }
   async getById(req: Request, res: Response, next: NextFunction) {
     console.log("[TestController] /getById ");
+    const testService = new TestService();
 
     try {
-      const testService = new TestService();
       const test = await testService.getById(req.params.id);
 
       if (!test) {
@@ -30,12 +32,15 @@ export class TestController {
     } catch (error: any) {
       console.log("[TestController] /getById " + error.message);
       next(error);
+    } finally {
+      testService.close();
     }
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
     console.log("[TestController] /create");
-    console.log(req.body);
+    const testService = new TestService();
+
     try {
       const toCreateTest = new Test(
         req.body.title,
@@ -43,7 +48,6 @@ export class TestController {
         req.body.questions
       );
 
-      const testService = new TestService();
       const test = await testService.create(toCreateTest);
       return res.status(201).json(test);
     } catch (error: any) {
@@ -69,11 +73,14 @@ export class TestController {
       }
 
       next(error);
+    } finally {
+      testService.close();
     }
   }
 
   async update(req: Request, res: Response, next: NextFunction) {
     console.log("[TestController] /update");
+    const testService = new TestService();
 
     try {
       const toUpdateTest = new Test(
@@ -81,7 +88,6 @@ export class TestController {
         req.body.teacher.id,
         req.body.questions
       );
-      const testService = new TestService();
       const test = await testService.update(req.params.id, toUpdateTest);
       return res.json(test);
     } catch (error: any) {
@@ -105,19 +111,23 @@ export class TestController {
         return res.status(404).json({ message: error.message });
       }
       next(error);
+    } finally {
+      testService.close();
     }
   }
 
   async delete(req: Request, res: Response, next: NextFunction) {
     console.log("[TestController] /delete");
+    const testService = new TestService();
 
     try {
-      const testService = new TestService();
       const test = await testService.delete(req.params.id);
       return res.json(test);
     } catch (error: any) {
       console.log("[TestController] /delete " + error.message);
       next(error);
+    } finally {
+      testService.close();
     }
   }
 }

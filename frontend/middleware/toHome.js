@@ -1,5 +1,5 @@
 export default function (context) {
-  const { app, redirect } = context
+  const { app, route, redirect } = context
   if (!app.$cookies.get('token')) {
     return redirect(`/auth/login?redirect=${route.fullPath}`)
   }

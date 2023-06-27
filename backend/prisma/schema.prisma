@@ -21,11 +21,10 @@ model Question {
   question_type String  @default("multiple_choice")
   response      String?
 
-  created_at       DateTime           @default(now())
-  updated_at       DateTime           @updatedAt
-  alternatives     Alternative[]
-  tests            Test[]
-  ResponseQuestion ResponseQuestion[]
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+  alternatives Alternative[]
+  tests        Test[]
 
   @@map("questions")
 }
@@ -40,8 +39,7 @@ model Alternative {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  question            Question              @relation(fields: [question_id], references: [id])
-  ResponseAlternative ResponseAlternative[]
+  question Question @relation(fields: [question_id], references: [id])
 
   @@map("alternatives")
 }
@@ -52,9 +50,10 @@ model Teacher {
   name  String
   email String @unique
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  tests      Test[]
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  tests       Test[]
+  AppliedTest AppliedTest[]
 
   @@map("teachers")
 }
@@ -69,9 +68,8 @@ model Test {
 
   teacher_id String
 
-  teacher     Teacher       @relation(fields: [teacher_id], references: [id])
-  questions   Question[]
-  AppliedTest AppliedTest[]
+  teacher   Teacher    @relation(fields: [teacher_id], references: [id])
+  questions Question[]
 
   @@map("tests")
 }
@@ -94,18 +92,47 @@ model AppliedTest {
   id String @id @default(uuid())
 
   available_until DateTime @default(now())
+  title           String
 
-  student_id String
-  test_id    String
+  student_id   String
+  test_id      String
+  ResponseTest ResponseTest[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  student      Student        @relation(fields: [student_id], references: [id])
-  test         Test           @relation(fields: [test_id], references: [id])
-  ResponseTest ResponseTest[]
+  student           Student                @relation(fields: [student_id], references: [id])
+  teacher           Teacher                @relation(fields: [teacherId], references: [id])
+  applied_questions AppliedTestQuestions[]
+  teacherId         String
 
   @@map("applied_tests")
+}
+
+model AppliedTestQuestions {
+  id String @id @default(uuid())
+
+  content       String
+  question_type String  @default("multiple_choice")
+  response      String?
+
+  created_at    DateTime                  @default(now())
+  updated_at    DateTime                  @updatedAt
+  alternatives  AppliedTestAlternatives[]
+  AppliedTest   AppliedTest?              @relation(fields: [appliedTestId], references: [id])
+  appliedTestId String?
+}
+
+model AppliedTestAlternatives {
+  id String @id @default(uuid())
+
+  content    String
+  is_correct Boolean
+
+  created_at             DateTime              @default(now())
+  updated_at             DateTime              @updatedAt
+  AppliedTestQuestions   AppliedTestQuestions? @relation(fields: [appliedTestQuestionsId], references: [id])
+  appliedTestQuestionsId String?
 }
 
 model ResponseQuestion {
@@ -118,7 +145,6 @@ model ResponseQuestion {
 
   question_id String
 
-  question       Question              @relation(fields: [question_id], references: [id])
   alternatives   ResponseAlternative[]
   ResponseTest   ResponseTest?         @relation(fields: [responseTestId], references: [id])
   responseTestId String?
@@ -138,7 +164,6 @@ model ResponseAlternative {
   alternative_id       String
 
   ResponseQuestion ResponseQuestion @relation(fields: [response_question_id], references: [id])
-  alternative      Alternative      @relation(fields: [alternative_id], references: [id])
 
   @@map("response_alternatives")
 }

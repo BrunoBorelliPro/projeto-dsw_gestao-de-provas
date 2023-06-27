@@ -4,7 +4,6 @@ import authMiddleware from "../../middlewares/auth.middleware";
 
 const router = Router();
 const teacherController = new TeacherController();
-// /api/teachers
 
 router.post("/", teacherController.create);
 

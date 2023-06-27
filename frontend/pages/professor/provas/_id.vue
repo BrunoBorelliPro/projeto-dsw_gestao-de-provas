@@ -7,8 +7,8 @@
           <b-form-group id="title-group" label="Título">
             <b-form-input
               id="title"
-              type="text"
               v-model="form.title"
+              type="text"
               required
               placeholder="Título da prova"
             ></b-form-input>
@@ -36,7 +36,12 @@ import SelectQuestions from '../../../components/questions/SelectQuestions.vue'
 import SelectedQuestions from '../../../components/questions/SelectedQuestions.vue'
 
 export default {
-  name: 'QuestoesPage',
+  name: 'TestPage',
+  components: { SelectedQuestions, SelectQuestions },
+  layout(context) {
+    return 'professor'
+  },
+  middleware: ['auth'],
   data() {
     return {
       form: {
@@ -45,25 +50,6 @@ export default {
         questions: [],
       },
     }
-  },
-  methods: {
-    updateTest() {
-      const questionsIds =
-        this.$store.state.selectedQuestions.selectedQuestions.map(
-          (question) => question.id
-        )
-      const payload = {
-        ...this.form,
-        questions: questionsIds,
-        id: this.$route.params.id,
-      }
-      this.$store.dispatch('test/updateTest', payload)
-      this.$router.push({ path: '/professor/provas' })
-    },
-    deleteTest(test) {
-      this.$store.dispatch('test/deleteTest', this.$route.params.id)
-      this.$router.push({ path: '/professor/provas' })
-    },
   },
   computed: {
     ...mapState({
@@ -91,11 +77,25 @@ export default {
           })
       })
   },
-  layout(context) {
-    return 'professor'
+  methods: {
+    updateTest() {
+      const questionsIds =
+        this.$store.state.selectedQuestions.selectedQuestions.map(
+          (question) => question.id
+        )
+      const payload = {
+        ...this.form,
+        questions: questionsIds,
+        id: this.$route.params.id,
+      }
+      this.$store.dispatch('test/updateTest', payload)
+      this.$router.push({ path: '/professor/provas' })
+    },
+    deleteTest(test) {
+      this.$store.dispatch('test/deleteTest', this.$route.params.id)
+      this.$router.push({ path: '/professor/provas' })
+    },
   },
-  middleware: ['auth'],
-  components: { SelectedQuestions, SelectQuestions },
 }
 </script>
 

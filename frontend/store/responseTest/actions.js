@@ -8,16 +8,7 @@ export default {
 
   async submitTest({ commit, state }, response) {
     console.log(response)
-    await this.$axios.$post(
-      `/responseTest/${response.appliedTestId}`,
-      {
-        response,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${this.$cookies.get('token').token}`,
-        },
-      }
-    )
+
+    await this.$api.responseTest.submitTest(response)
   },
 }

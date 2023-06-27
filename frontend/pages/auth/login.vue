@@ -50,67 +50,17 @@ export default {
   },
 
   methods: {
-    onSubmit(event) {
+    async onSubmit(event) {
       event.preventDefault()
 
-      
-
-      this.$axios
-        .post(
-          `${this.$config.authUrl}/login`,
-          {
-            email: this.form.email,
-            password: this.form.password,
-          },
-          {
-            withCredentials: true,
-            crossDomain: true,
-          }
-        )
-        .then(
-          (response) => {
-            const { token, exp } = response.data
-            const user = {
-              userId: response.data.userId,
-              isTeacher: response.data.isTeacher,
-            }
-
-            console.log(response)
-
-            this.setToken(token, exp)
-            this.setUser(user)
-
-            this.$router.push(this.$route.query.redirect || '/')
-          },
-          (error) => {
-            console.log(error)
-            alert("Falha ao logar")
-          }
-        )
+      await this.$api.auth.login(this.form.email, this.form.password)
+      this.$router.push(this.$route.query.redirect || '/')
     },
 
     onReset(event) {
       event.preventDefault()
       this.form.email = ''
       this.form.password = ''
-    },
-
-    setToken(token, exp) {
-      this.$cookies.set(
-        'token',
-        { token, exp },
-        {
-          path: '/',
-          maxAge: 60 * 60 * 24 * 7,
-        }
-      )
-    },
-
-    setUser(user) {
-      this.$cookies.set('user', user, {
-        path: '/',
-        maxAge: 60 * 60 * 24 * 7,
-      })
     },
   },
 }

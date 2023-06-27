@@ -7,8 +7,8 @@
           <b-form-group id="title-group" label="Título">
             <b-form-input
               id="title"
-              type="text"
               v-model="form.title"
+              type="text"
               required
               placeholder="Título da prova"
             ></b-form-input>
@@ -27,8 +27,8 @@
             v-for="(test, index) in tests"
             :key="index"
             :title="test.title"
-            v-on:click="editTest(test)"
             class="test__card"
+            @click="editTest(test)"
           >
             <b-card-text>
               Número de questões: {{ test.questions.length }}
@@ -47,7 +47,12 @@ import SelectQuestions from '../../../components/questions/SelectQuestions.vue'
 import SelectedQuestions from '../../../components/questions/SelectedQuestions.vue'
 
 export default {
-  name: 'QuestoesPage',
+  name: 'TestsPage',
+  components: { SelectedQuestions, SelectQuestions },
+  layout(context) {
+    return 'professor'
+  },
+  middleware: ['auth'],
   data() {
     return {
       form: {
@@ -55,6 +60,14 @@ export default {
         teacherId: this.$cookies.get('user').userId,
       },
     }
+  },
+  computed: {
+    ...mapState({
+      tests: (state) => state.test.tests,
+    }),
+  },
+  mounted() {
+    this.$store.dispatch('test/getTests')
   },
   methods: {
     createTest() {
@@ -77,19 +90,6 @@ export default {
       this.$router.push({ path: `/professor/provas/${test.id}` })
     },
   },
-  computed: {
-    ...mapState({
-      tests: (state) => state.test.tests,
-    }),
-  },
-  mounted() {
-    this.$store.dispatch('test/getTests')
-  },
-  layout(context) {
-    return 'professor'
-  },
-  middleware: ['auth'],
-  components: { SelectedQuestions, SelectQuestions },
 }
 </script>
 

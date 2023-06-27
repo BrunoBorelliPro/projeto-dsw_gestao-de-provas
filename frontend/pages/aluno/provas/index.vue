@@ -7,7 +7,7 @@
           v-for="(test, index) in appliedTests"
           :key="index"
           class="test"
-          v-on:click="goToTest(test.id)"
+          @click="goToTest(test.id)"
         >
           <ToAnswerTestCard :test="test" />
         </div>
@@ -21,24 +21,10 @@ import { mapState } from 'vuex'
 import ToAnswerTestCard from '../../../components/questions/aluno/ToAnswerTestCard.vue'
 
 export default {
-  methods: {
-    goToTest(testId) {
-      this.$router.push({ path: `/aluno/provas/${testId}` })
-    },
-  },
-
-  computed: {
-    ...mapState({
-      appliedTests: (state) => state.appliedTests.appliedTests,
-    }),
-  },
-  mounted() {
-    const user = this.$cookies.get('user')
-    console.log(user)
-    this.$store.dispatch(
-      'appliedTests/getAppliedTests',
-      this.$cookies.get('user').userId
-    )
+  name: 'TestsPage',
+  components: { ToAnswerTestCard },
+  layout(context) {
+    return 'aluno'
   },
 
   data() {
@@ -46,12 +32,20 @@ export default {
       tests: [],
     }
   },
-  layout(context) {
-    return 'aluno'
+  computed: {
+    ...mapState({
+      appliedTests: (state) => state.appliedTests.appliedTests,
+    }),
   },
-  name: 'QuestoesPage',
-  middleware: ['auth'],
-  components: { ToAnswerTestCard },
+  mounted() {
+    const user = this.$cookies.get('user')
+    this.$store.dispatch('appliedTests/getAppliedTests', user.userId)
+  },
+  methods: {
+    goToTest(testId) {
+      this.$router.push({ path: `/aluno/provas/${testId}` })
+    },
+  },
 }
 </script>
 

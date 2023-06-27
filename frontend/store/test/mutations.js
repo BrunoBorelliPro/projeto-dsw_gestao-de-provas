@@ -1,6 +1,5 @@
 export default {
   STORE_TEST(state, payload) {
-    console.log('STORE_TEST', payload)
     if (!state.tests.find((test) => test.id === payload.id)) {
       state.tests.push(payload)
     }

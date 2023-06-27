@@ -1,52 +1,8 @@
-version: "3.7"
-
 services:
-  frontend:
-    depends_on:
-      - backend
-      - auth
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.dev
-    ports:
-      - 3000:3000
-    env_file:
-      - ./frontend/.env
-    volumes:
-      - ./frontend:/var/www/dockerize-nuxt/nuxt-app
-      - /var/www/dockerize-nuxt/nuxt-app/node_modules
-
-  backend:
-    depends_on:
-      - mysql
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.dev
-    ports:
-      - 8080:8080
-    env_file:
-      - ./backend/.env
-    volumes:
-      - ./backend:/usr/src/app
-      - /usr/src/app/node_modules
-
-  auth:
-    depends_on:
-      - mongodb
-    build:
-      context: ./auth
-      dockerfile: Dockerfile.dev
-    ports:
-      - 3331:3331
-    env_file:
-      - ./auth/.env
-    volumes:
-      - ./auth:/usr/src/app
-      - /usr/src/app/node_modules
-
   mysql:
     image: mysql:5.7
     container_name: mysql
+    command: --max_allowed_packet=32505856
     environment:
       MYSQL_DATABASE: "db"
       MYSQL_USER: "user"

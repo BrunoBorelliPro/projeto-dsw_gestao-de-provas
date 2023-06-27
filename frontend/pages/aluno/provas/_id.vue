@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <div class="box">
-      <div class="test" id="printMe">
+      <div id="printMe" class="test">
         <div class="title">
           <h1>{{ test.title }}</h1>
         </div>
         <div class="questions">
           <div
-            v-for="(question, index) in test.questions"
+            v-for="(question, index) in test.applied_questions"
             :key="index"
             class="question"
           >
@@ -29,16 +29,24 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 import ToAnswerQuestionCard from '../../../components/questions/aluno/ToAnswerQuestionCard.vue'
 
 export default {
-  data() {
-    return {
-      test: {},
-    }
+  name: 'QuestoesPage',
+  components: { ToAnswerQuestionCard },
+  layout(context) {
+    return 'aluno'
   },
+
+  async asyncData({ $api, route }) {
+    const test = await $api.appliedTests.getAppliedTestById(route.params.id)
+    console.log(test.applied_questions)
+    return { test }
+  },
+  mounted() {
+    this.$store.dispatch('responseTest/resetResponseTest')
+  },
+
   methods: {
     submitTest() {
       const res = confirm('Deseja mesmo enviar a prova para correção?')
@@ -62,46 +70,19 @@ export default {
         .dispatch('responseTest/submitTest', test)
         .then(() => {
           this.$router.push({
-            path: `/aluno/provas/${this.$route.params.id}/resultado`,
+            path: `/aluno/provas/resultado/${this.$route.params.id}`,
           })
         })
-        .catch((err) => {
+        .catch(() => {
           alert('Erro ao enviar a prova para correção')
-          console.log(err)
         })
     },
     print() {
-      console.log('print')
-      console.log(this.test)
       this.$router.push({
         path: `/aluno/provas/imprimir/${this.$route.params.id}`,
       })
     },
   },
-  computed: {
-    ...mapState({
-      appliedTests: (state) => state.appliedTests.appliedTests,
-    }),
-  },
-  mounted() {
-    this.$store
-      .dispatch('appliedTests/getAppliedTestById', this.$route.params.id)
-      .then(() => {
-        const test = this.appliedTests.find(
-          (test) => test.id === this.$route.params.id
-        )
-        console.log(test)
-        this.test = test.test
-      })
-
-    this.$store.dispatch('responseTest/resetResponseTest')
-  },
-  layout(context) {
-    return 'aluno'
-  },
-  name: 'QuestoesPage',
-  middleware: ['auth'],
-  components: { ToAnswerQuestionCard },
 }
 </script>
 
