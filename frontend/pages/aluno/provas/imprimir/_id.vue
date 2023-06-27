@@ -34,6 +34,8 @@ export default {
         const test = this.appliedTests.find(
           (test) => test.id === this.$route.params.id
         )
+        test.questions = test.applied_questions
+        delete test.applied_questions
         this.test = test
       })
   },

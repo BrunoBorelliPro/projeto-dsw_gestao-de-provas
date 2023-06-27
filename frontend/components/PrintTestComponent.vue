@@ -10,7 +10,7 @@
       </div>
       <div class="questions">
         <div
-          v-for="(question, index) in test.applied_questions"
+          v-for="(question, index) in test.questions"
           :key="index"
           class="question"
         >
