@@ -4,9 +4,9 @@
 <script>
 export default {
   name: 'IndexPage',
-  middleware: ['auth', 'toHome'],
   layout(context) {
     return 'guest'
   },
+  middleware: ['auth', 'toHome'],
 }
 </script>

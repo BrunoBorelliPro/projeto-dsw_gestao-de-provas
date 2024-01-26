@@ -115,9 +115,6 @@ export default {
   margin-bottom: 20px;
 }
 
-.question_list__question {
-}
-
 .overflow {
   overflow-y: auto;
   max-height: 100px;

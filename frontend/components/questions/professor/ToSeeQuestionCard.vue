@@ -7,8 +7,8 @@
       <div v-if="question.question_type === 'multiple_choice'">
         <div v-for="(alternative, index) in question.alternatives" :key="index">
           <input
-            type="radio"
             :id="alternative.id"
+            type="radio"
             :name="question.content"
             disabled
             :checked="alternative.is_correct"
@@ -20,8 +20,8 @@
       <div v-if="question.question_type === 'true_false'">
         <div v-for="(alternative, index) in question.alternatives" :key="index">
           <input
-            type="checkbox"
             :id="alternative.id"
+            type="checkbox"
             :name="question.content"
             disabled
             :checked="alternative.is_correct"
@@ -32,9 +32,10 @@
 
       <div v-if="question.question_type === 'essay'">
         <textarea
-          type="text"
           :id="question.id"
+          type="text"
           :name="question.content"
+          :placeholder="question.response"
           class="question-essay-response"
           disabled
         />
@@ -57,10 +58,10 @@ export default {
       required: true,
     },
   },
-  mounted() {},
   data() {
     return {}
   },
+  mounted() {},
 }
 </script>
 

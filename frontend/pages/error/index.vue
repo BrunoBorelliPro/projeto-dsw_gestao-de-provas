@@ -3,12 +3,12 @@
     <div class="box">
       <div class="error">
         <div class="title">
-          <h1>{{ this.$route.query.errorName }}</h1>
+          <h1>{{ $route.query.errorName }}</h1>
         </div>
         <div class="message">
-          <p>{{ this.$route.query.errorMessage }}</p>
+          <p>{{ $route.query.errorMessage }}</p>
         </div>
-        <b-button block variant="danger" v-on:click="home"> Voltar </b-button>
+        <b-button block variant="danger" @click="home"> Voltar </b-button>
       </div>
     </div>
   </div>
@@ -17,13 +17,13 @@
 <script>
 export default {
   name: 'ErrorPage',
+  layout(context) {
+    return 'guest'
+  },
   methods: {
     home() {
       this.$router.push('/')
     },
-  },
-  layout(context) {
-    return 'guest'
   },
 }
 </script>

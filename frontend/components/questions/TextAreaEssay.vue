@@ -13,10 +13,10 @@ export default {
       required: true,
     },
   },
-  mounted() {},
   data() {
     return {}
   },
+  mounted() {},
 }
 </script>
 

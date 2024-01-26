@@ -9,6 +9,9 @@
           <NuxtLink to="/aluno/provas">Provas</NuxtLink>
         </b-nav-item>
         <b-nav-item>
+          <NuxtLink to="/aluno/provas/resultado">Provas Realizadas</NuxtLink>
+        </b-nav-item>
+        <b-nav-item>
           <NuxtLink to="/auth/logout">Sair</NuxtLink>
         </b-nav-item>
       </b-navbar-nav>
@@ -19,10 +22,10 @@
 
 <script>
 export default {
+  middleware: ['auth', 'isStudent'],
   data() {
     return {}
   },
-  middleware: 'auth',
 }
 </script>
 

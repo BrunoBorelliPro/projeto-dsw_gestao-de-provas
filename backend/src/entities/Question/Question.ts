@@ -5,6 +5,7 @@ export class Question {
     readonly content: string,
     readonly alternatives: Alternative[],
     readonly question_type: string,
+    readonly response?: string,
     readonly id?: string,
     readonly created_at?: string | Date | undefined,
     readonly updated_at?: string | Date | undefined

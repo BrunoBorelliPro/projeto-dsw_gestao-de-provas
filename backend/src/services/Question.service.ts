@@ -1,11 +1,12 @@
-import { prisma } from "../../prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { Alternative } from "../entities/Alternative/Alternative";
 import { Question } from "../entities/Question/Question";
+import { Service } from "./Service";
 
-export class QuestionService {
+export class QuestionService extends Service {
   async getById(id: string) {
     console.log(`[QuestionService] get question: ${id}`);
-    return await prisma.question.findUnique({
+    return await this.prisma.question.findUnique({
       where: {
         id: id,
       },
@@ -16,7 +17,7 @@ export class QuestionService {
   }
   async getAll() {
     console.log(`[QuestionService] get all questions`);
-    return await prisma.question.findMany({
+    return await this.prisma.question.findMany({
       include: {
         alternatives: true,
       },
@@ -29,16 +30,19 @@ export class QuestionService {
 
     this.validateQuestion(question);
 
-    const createdQuestion = await prisma.question.create({
+    const createdQuestion = await this.prisma.question.create({
       data: {
         content: question.content,
         question_type: question.question_type,
+
+        response: question.response ? question.response : null,
+
         alternatives: {
           create: [...alternatives],
         },
       },
     });
-    return await prisma.question.findUnique({
+    return await this.prisma.question.findUnique({
       where: { id: createdQuestion.id },
       include: { alternatives: true },
     });
@@ -47,7 +51,7 @@ export class QuestionService {
   async update(id: string, question: Question) {
     console.log(`[QuestionService] update question: ${id}`);
 
-    const foundedQuestion = await prisma.question.findUnique({
+    const foundedQuestion = await this.prisma.question.findUnique({
       where: { id: id },
     });
 
@@ -57,7 +61,7 @@ export class QuestionService {
 
     this.validateQuestion(question);
 
-    await prisma.alternative.deleteMany({
+    await this.prisma.alternative.deleteMany({
       where: {
         question_id: id,
       },
@@ -72,18 +76,18 @@ export class QuestionService {
       };
     });
 
-    const updatedQuestion = await prisma.question.update({
+    const updatedQuestion = await this.prisma.question.update({
       where: { id: id },
       data: {
         content: question.content,
         question_type: question.question_type,
-
+        response: question.response ? question.response : null,
         alternatives: {
           create: alternatives,
         },
       },
     });
-    return await prisma.question.findUnique({
+    return await this.prisma.question.findUnique({
       where: { id: updatedQuestion.id },
       include: { alternatives: true },
     });
@@ -91,13 +95,13 @@ export class QuestionService {
 
   async delete(id: string) {
     console.log(`[QuestionService] delete question: ${id}`);
-    await prisma.alternative.deleteMany({
+    await this.prisma.alternative.deleteMany({
       where: {
         question_id: id,
       },
     });
 
-    await prisma.question.delete({
+    await this.prisma.question.delete({
       where: {
         id: id,
       },
@@ -129,6 +133,10 @@ export class QuestionService {
       question.alternatives.length > 0
     ) {
       throw new Error("Essay questions cannot have alternatives");
+    }
+
+    if (question.question_type === "essay" && !question.response) {
+      throw new Error("Essay questions must have a response");
     }
   }
 }

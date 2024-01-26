@@ -30,6 +30,7 @@ import TextAreaEssay from '../TextAreaEssay.vue'
 
 export default {
   name: 'ToPrintQuestionCard',
+  components: { TextAreaEssay },
   props: {
     question: {
       type: Object,
@@ -40,11 +41,10 @@ export default {
       required: true,
     },
   },
-  mounted() {},
   data() {
     return {}
   },
-  components: { TextAreaEssay },
+  mounted() {},
 }
 </script>
 

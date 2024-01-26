@@ -1,6 +1,5 @@
 export default {
   STORE_STUDENT(state, payload) {
-    console.log('STORE_STUDENT', payload)
     if (!state.students.includes(payload)) {
       state.students.push(payload)
     }

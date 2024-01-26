@@ -17,7 +17,7 @@
             : 'Dissertativa'
         "
         class="question_list__question"
-        v-on:click="select(question)"
+        @click="select(question)"
       >
         <b-card-text class="overflow">
           {{ question.content }}
@@ -69,7 +69,6 @@ export default {
     },
 
     select(question) {
-      console.log(question)
       this.$store.dispatch('selectedQuestions/selectQuestion', question)
     },
   },

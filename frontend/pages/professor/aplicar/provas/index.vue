@@ -21,6 +21,12 @@ import { mapState } from 'vuex'
 
 import TestCard from '../../../../components/tests/TestCard.vue'
 export default {
+  name: 'ApplyTestsPage',
+  components: { TestCard },
+  layout(context) {
+    return 'professor'
+  },
+  middleware: ['auth'],
   data() {
     return {}
   },
@@ -32,11 +38,6 @@ export default {
   mounted() {
     this.$store.dispatch('test/getTests')
   },
-  layout(context) {
-    return 'professor'
-  },
-  middleware: ['auth'],
-  components: { TestCard },
 }
 </script>
 

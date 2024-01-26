@@ -6,24 +6,35 @@
     <div class="alternatives">
       <div v-if="question.question_type === 'multiple_choice'">
         <div v-for="(alternative, index) in question.alternatives" :key="index">
-          <input type="radio" :id="index" :name="question.content" />
+          <input
+            :id="alternative.id"
+            type="radio"
+            :name="question.content"
+            @change="updateResponse"
+          />
           <label for="index">{{ alternative.content }}</label>
         </div>
       </div>
 
       <div v-if="question.question_type === 'true_false'">
         <div v-for="(alternative, index) in question.alternatives" :key="index">
-          <input type="checkbox" :id="index" :name="question.content" />
+          <input
+            :id="alternative.id"
+            type="checkbox"
+            :name="question.content"
+            @change="updateTrueFalse"
+          />
           <label for="index">{{ alternative.content }}</label>
         </div>
       </div>
 
       <div v-if="question.question_type === 'essay'">
         <textarea
-          type="text"
           :id="question.id"
+          type="text"
           :name="question.content"
           class="question-essay-response"
+          @keyup="updateResponse"
         />
       </div>
       <div v-else></div>
@@ -32,8 +43,10 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'ToAnswerQuestionCard',
+
   props: {
     question: {
       type: Object,
@@ -44,9 +57,47 @@ export default {
       required: true,
     },
   },
-  mounted() {},
   data() {
-    return {}
+    return {
+      responseTrueFalse: [],
+    }
+  },
+  computed: {
+    ...mapState({
+      responses: (state) => state.responseTest.questions,
+    }),
+  },
+  mounted() {
+    console.log(this.question)
+    this.updateResponse(false)
+  },
+  methods: {
+    updateTrueFalse(event) {
+      if (event.target.checked) {
+        this.responseTrueFalse.push(event.target.id)
+      } else {
+        this.responseTrueFalse = this.responseTrueFalse.filter(
+          (r) => r !== event.target.id
+        )
+      }
+      this.updateResponse(event)
+    },
+    updateResponse(event) {
+      const response = {
+        questionId: this.question.id,
+        question_type: this.question.question_type,
+      }
+      if (!event) {
+        response.response = ''
+      } else if (this.question.question_type === 'true_false') {
+        response.response = [...this.responseTrueFalse]
+      } else if (this.question.question_type === 'multiple_choice') {
+        response.response = event.target.id
+      } else {
+        response.response = event.target.value
+      }
+      this.$store.dispatch('responseTest/updateResponse', response)
+    },
   },
 }
 </script>

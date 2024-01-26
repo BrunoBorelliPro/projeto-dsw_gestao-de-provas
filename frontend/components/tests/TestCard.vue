@@ -1,5 +1,5 @@
 <template>
-  <div class="test-card" v-on:click="selectTest">
+  <div class="test-card" @click="selectTest">
     <div class="test-title">
       <h1>{{ test.title }}</h1>
     </div>
@@ -19,6 +19,9 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {}
+  },
   methods: {
     selectTest() {
       if (!this.isToPdf) {
@@ -26,9 +29,6 @@ export default {
       }
       return this.$router.push(`/professor/aplicar/imprimir/${this.test.id}`)
     },
-  },
-  data() {
-    return {}
   },
 }
 </script>

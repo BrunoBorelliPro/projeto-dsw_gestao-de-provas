@@ -94,7 +94,6 @@ export default {
           name: this.form.name,
         })
         .then((response) => {
-          console.log(response)
           const userId = response.data.id
           this.$axios
             .post(`${this.$config.authUrl}/users`, {
@@ -105,15 +104,12 @@ export default {
               isTeacher: this.form.isTeacher,
             })
             .then((response) => {
-              console.log(response)
-
               alert('Registrado com sucesso')
               this.$router.push('/auth/login')
             })
         })
-        .catch((error) => {
+        .catch(() => {
           alert('Erro ao registrar')
-          console.log(error)
         })
     },
     onReset(event) {

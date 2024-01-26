@@ -55,7 +55,17 @@
       </div>
     </div>
 
-    <div v-else :key="'essay'" class="form__add_alternative"></div>
+    <div v-else :key="'essay'" class="form__add_response">
+      <h2>Resposta</h2>
+      <textarea
+        id="response"
+        v-model="questionData.response"
+        name="response"
+        cols="30"
+        rows="10"
+        placeholder="Resposta"
+      />
+    </div>
     <b-button variant="primary" @click="createQuestion">{{
       submitBtnText
     }}</b-button>
@@ -92,6 +102,7 @@ export default {
         content: '',
         alternatives: [],
         question_type: '',
+        response: '',
       },
       alternativeForm: {
         content: '',
@@ -115,6 +126,7 @@ export default {
 
           this.questionData.content = question.content
           this.questionData.question_type = question.question_type
+          this.questionData.response = question.response
           question.alternatives.forEach((alternative) => {
             this.questionData.alternatives.push({
               content: alternative.content,
@@ -186,6 +198,7 @@ export default {
             content: '',
             alternatives: [],
             question_type: '',
+            response: '',
           }
           this.alternativeForm = {
             content: '',

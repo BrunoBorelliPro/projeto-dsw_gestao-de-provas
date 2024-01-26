@@ -9,7 +9,7 @@
           v-for="test in tests"
           :key="test.id"
           :test="test"
-          :isToPdf="true"
+          :is-to-pdf="true"
         />
       </div>
     </div>
@@ -22,6 +22,12 @@ import { mapState } from 'vuex'
 import TestCard from '../../../../components/tests/TestCard.vue'
 
 export default {
+  name: 'PrintTestsPage',
+  components: { TestCard },
+  layout(context) {
+    return 'professor'
+  },
+  middleware: ['auth'],
   data() {
     return {}
   },
@@ -33,11 +39,6 @@ export default {
   mounted() {
     this.$store.dispatch('test/getTests')
   },
-  layout(context) {
-    return 'professor'
-  },
-  middleware: ['auth'],
-  components: { TestCard },
 }
 </script>
 

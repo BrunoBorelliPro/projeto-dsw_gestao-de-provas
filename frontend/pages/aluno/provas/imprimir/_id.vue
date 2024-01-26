@@ -11,6 +11,11 @@ import { mapState } from 'vuex'
 import PrintTestComponent from '../../../../components/PrintTestComponent.vue'
 
 export default {
+  name: 'QuestoesPage',
+  components: { PrintTestComponent },
+  layout(context) {
+    return 'aluno'
+  },
   data() {
     return {
       test: {},
@@ -29,7 +34,9 @@ export default {
         const test = this.appliedTests.find(
           (test) => test.id === this.$route.params.id
         )
-        this.test = test.test
+        test.questions = test.applied_questions
+        delete test.applied_questions
+        this.test = test
       })
   },
   methods: {
@@ -47,12 +54,6 @@ export default {
       })
     },
   },
-  layout(context) {
-    return 'aluno'
-  },
-  name: 'QuestoesPage',
-  middleware: ['auth'],
-  components: { PrintTestComponent },
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="test" id="printMe">
+    <div id="printMe" class="test">
       <div class="aluno_data">
         <p>Nome:</p>
         <p>Prontuário:</p>
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="buttons">
-      <button class="btn btn-primary" v-on:click="() => toPdf()">
+      <button class="btn btn-primary" @click="() => toPdf()">
         Imprimir prova
       </button>
     </div>
@@ -30,6 +30,8 @@
 import ToPrintQuestionCard from './questions/professor/ToPrintQuestionCard.vue'
 
 export default {
+  name: 'PrintTestComponent',
+  components: { ToPrintQuestionCard },
   props: {
     test: {
       type: Object,
@@ -52,9 +54,6 @@ export default {
       })
     },
   },
-
-  name: 'PrintTestComponent',
-  components: { ToPrintQuestionCard },
 }
 </script>
 

@@ -15,6 +15,11 @@
           <NuxtLink to="/professor/aplicar/provas">Aplicar Provas</NuxtLink>
         </b-nav-item>
         <b-nav-item>
+          <NuxtLink to="/professor/provas/provas_aplicadas"
+            >Provas Aplicadas</NuxtLink
+          >
+        </b-nav-item>
+        <b-nav-item>
           <NuxtLink to="/professor/aplicar/imprimir">Imprimir Provas</NuxtLink>
         </b-nav-item>
         <b-nav-item>
@@ -30,10 +35,10 @@
 export default {
   name: '',
 
+  middleware: ['isTeacher'],
+
   data() {
     return {}
   },
-
-  middleware: ['isTeacher'],
 }
 </script>
